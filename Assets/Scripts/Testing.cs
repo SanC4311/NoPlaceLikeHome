@@ -6,6 +6,7 @@ public class Testing : MonoBehaviour
 {
 
     private GridSystem gridSystem;
+    [SerializeField] private Transform gridDebugObjectPrefab;
     // Start is called before the first frame update
     private void Start()
     {
