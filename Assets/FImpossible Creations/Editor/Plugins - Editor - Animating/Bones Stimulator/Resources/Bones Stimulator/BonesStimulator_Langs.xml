@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Languages>
+
+  <English>
+    <string name="Above">Above transforms will be stimulated</string>
+    <string name="Hide With">Hide With</string>
+    <string name="Fade Out Distance">Fade Out Distance</string>
+    <string name="Muscles">Muscles: Applying 'mass' effect to motion</string>
+    <string name="MusclesReq">Muscles needs at least two transforms to stimulate!</string>
+    <string name="MusclesNeedEnabled">Enable Movement Muscles to use Collisions!</string>
+    <string name="CollisionReq">Collision needs at least two transforms!</string>
+    <string name="Vibrate">Vibrate: Randomly affecting bones</string>
+    <string name="Squeeze">Simple Squeezing: Scaling first bone only</string>
+    <string name="Collision">Selective colliders physics</string>
+    <string name="Disabled">Disabled</string>
+  </English>
+
+  <Polski>
+    <string name="Above">Powyższe transformy będą stymulowane</string>
+    <string name="Hide With">Wyłącz z</string>
+    <string name="Fade Out Distance">Wyłącz gdy oddalony</string>
+    <string name="Muscles">Mięśnie: Dodadzą 'masy' animacją</string>
+    <string name="MusclesReq">Mięśnie wymagają conajmniej 2 dodanych transformów!</string>
+    <string name="MusclesNeedEnabled">Kolizje działają tylko z 'Movement Muscles'!</string>
+    <string name="CollisionReq">Kolizja wymaga minimum 2 transformy</string>
+    <string name="Vibrate">Vibracje: Losowe przekształcenia na kościach</string>
+    <string name="Squeeze">Spłaszczanie: Skaluje tylko pierwszą kość</string>
+    <string name="Collision">Kolizja z selektywnymi koliderami</string>
+    <string name="Disabled">Wyłączone</string>
+  </Polski>
+
+  <русский>
+    <string name="Above">Выше преобразует будет осуществляется</string>
+    <string name="Hide With">Отключить с</string>
+    <string name="Fade Out Distance">Отключить на расстоянии</string>
+    <string name="Muscles">Мышцы: Применение мышечного эффекта движения</string>
+    <string name="MusclesReq">Мышцы необходимо по крайней мере два преобразования в установке!</string>
+    <string name="MusclesNeedEnabled">Включить движение мышц использовать столкновения!</string>
+    <string name="CollisionReq">Столкновение требует как минимум двух Transforms</string>
+    <string name="Vibrate">Вибрировать: Случайно влияющих кости</string>
+    <string name="Squeeze">Пульсат: Масштабирование первой кости только</string>
+    <string name="Collision">Столкновение с выбранными коллайдеров</string>
+    <string name="Disabled">инвалид</string>
+  </русский>
+
+  <中文>
+    <string name="Above">以上变换将发生</string>
+    <string name="Hide With">隐藏与</string>
+    <string name="Fade Out Distance">隐藏在距离</string>
+    <string name="Muscles">肌肉： 应用肌肉效果运动</string>
+    <string name="MusclesReq">肌肉需要至少两个转换在设置!</string>
+    <string name="MusclesNeedEnabled">使运动肌肉使用碰撞 'Movement Muscles'!</string>
+    <string name="CollisionReq">碰撞至少需要两个“Transform”</string>
+    <string name="Vibrate">振动： 随机影响骨骼</string>
+    <string name="Squeeze">脉冲： 缩放第一骨骼只有</string>
+    <string name="Collision">碰撞与选定的碰撞</string>
+    <string name="Disabled">残障人士</string>
+  </中文>
+
+  <日本語>
+    <string name="Above">上記の変換が有効になります</string>
+    <string name="Hide With">無効にする</string>
+    <string name="Fade Out Distance">距離で無効にする</string>
+    <string name="Muscles">マッスル：モーションにマッスルエフェクトを適用する</string>
+    <string name="MusclesReq">セットアップで少なくとも2つのトランスフォームが必要です</string>
+    <string name="MusclesNeedEnabled">モーションマッスルがコリジョンを使用できるようにする</string>
+    <string name="CollisionReq">衝突には少なくとも2つの Transform が必要です</string>
+    <string name="Vibrate">振動：ランダムに影響を与える骨</string>
+    <string name="Squeeze">脈動：最初の骨のみをスケーリング</string>
+    <string name="Collision">選択したコライダーとの衝突</string>
+    <string name="Disabled">無効</string>
+  </日本語>
+
+
+  <한국어>
+    <string name="Above">위의 개체가 애니메이션됩니다</string>
+    <string name="Hide With">함께 끄기</string>
+    <string name="Fade Out Distance">자리를 비울 때 끄기</string>
+    <string name="Muscles">근육 : 애니메이션에 '질량'을 추가합니다.</string>
+    <string name="MusclesReq">근육에는 2 개 이상의 추가 물체가 필요합니다.!</string>
+    <string name="MusclesNeedEnabled">물리학은 근육을 켤 때만 작동합니다. 'Movement Muscles'!</string>
+    <string name="CollisionReq">충돌에는 두 개 이상의 Transform 이 필요합니다.</string>
+    <string name="Vibrate">진동 : 무작위로 뼈에 영향을 줌</string>
+    <string name="Squeeze">맥동 : 첫 번째 뼈만 스케일링</string>
+    <string name="Collision">선택한 충돌체와 충돌</string>
+    <string name="Disabled">장애인</string>
+  </한국어>
+
+</Languages>

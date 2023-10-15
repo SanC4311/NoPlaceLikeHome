@@ -12,8 +12,6 @@ public class Testing : MonoBehaviour
     {
         gridSystem = new GridSystem(10, 10, 2f);
         gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
-
-        Debug.Log(gridSystem.GetWorldPosition(5, 7));
     }
 
     private void Update()
