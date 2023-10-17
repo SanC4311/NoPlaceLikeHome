@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class LevelGrid : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    [SerializeField] private Transform gridDebugObjectPrefab;
+    private GridSystem gridSystem;
+
+    private void Awake()
     {
-        
+        gridSystem = new GridSystem(10, 10, 2f);
+        gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetRiflerAtGridPosition(GridPosition gridPosition, Rifler rifler)
     {
-        
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        gridObject.SetRifler(rifler);
+    }
+
+    public void GetRiflerAtGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        return gridObject.GetRifler();
+    }
+
+    public void ClearRiflerAtGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        gridObject.SetRifler(null);
     }
 }
