@@ -8,10 +8,17 @@ public class Rifler : MonoBehaviour
     [SerializeField] private float rotateSpeed = 4f;
     [SerializeField] private float moveSpeed = 4f;
     private Vector3 targetPosition;
+    private GridPosition gridPosition;
 
     private void Awake()
     {
         targetPosition = transform.position;
+    }
+
+    private void Start()
+    {
+        gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.AddRiflerAtGridPosition(gridPosition, this);
     }
 
     private void Update()
@@ -32,6 +39,13 @@ public class Rifler : MonoBehaviour
         else
         {
             riflerAnimator.SetBool("IsWalking", false);
+        }
+
+        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        if (newGridPosition != gridPosition)
+        {
+            LevelGrid.Instance.RiflerMovedGridPosition(this, gridPosition, newGridPosition);
+            gridPosition = newGridPosition;
         }
     }
 

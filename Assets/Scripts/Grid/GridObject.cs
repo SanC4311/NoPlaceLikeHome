@@ -7,27 +7,38 @@ public class GridObject
     private GridSystem gridSystem;
     private GridPosition gridPosition;
 
-    private Rifler rifler;
+    private List<Rifler> riflerList;
 
     public GridObject(GridSystem gridSystem, GridPosition gridPosition)
     {
         this.gridSystem = gridSystem;
         this.gridPosition = gridPosition;
+        riflerList = new List<Rifler>();
     }
 
     public override string ToString()
     {
-        return gridPosition.ToString();
+        string riflerString = "";
+        foreach (Rifler rifler in riflerList)
+        {
+            riflerString += rifler + "\n";
+        }
+        return gridPosition.ToString() + "\n" + riflerString;
     }
 
-    public void SetRifler(Rifler rifler)
+    public void AddRifler(Rifler rifler)
     {
-        this.rifler = rifler;
+        riflerList.Add(rifler);
     }
 
-    public Rifler GetRifler()
+    public void RemoveRifler(Rifler rifler)
     {
-        return rifler;
+        riflerList.Remove(rifler);
+    }
+
+    public List<Rifler> GetRiflerList()
+    {
+        return riflerList;
     }
 
 }
