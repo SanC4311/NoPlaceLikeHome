@@ -21,7 +21,7 @@ public static class FEditor_TransformHandles
         Quaternion rotation = (UnityEditor.Tools.pivotRotation != UnityEditor.PivotRotation.Local) ? Quaternion.identity : rootReference.rotation;
 
         float size = HandleUtility.GetHandleSize(position) * 0.125f;
-        Handles.SphereHandleCap(0, position, rotation, size, EventType.Repaint);
+        Handles.SphereHandleCap(0, position, rotation, size, UnityEngine.EventType.Repaint);
         Vector3 pos = Handles.PositionHandle(position, rotation);
 
         return pos;
@@ -59,7 +59,7 @@ public static class FEditor_TransformHandles
             GUILayout.BeginArea(new Rect(labelPos, labelSize));
             GUIStyle style = new GUIStyle();
             style.normal.textColor = Color.black;
-            style.alignment = TextAnchor.MiddleCenter;
+            style.alignment = UnityEngine.TextAnchor.MiddleCenter;
             GUILayout.Label(new GUIContent(text), style);
             GUILayout.EndArea();
 

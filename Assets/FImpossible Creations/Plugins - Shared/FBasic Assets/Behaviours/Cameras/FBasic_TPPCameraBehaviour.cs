@@ -5,7 +5,6 @@ namespace FIMSpace.Basics
     /// <summary>
     /// FM: Simple component to controll behaviour of camera in TPP mode
     /// </summary>
-    [DefaultExecutionOrder(1000)]
     public class FBasic_TPPCameraBehaviour : MonoBehaviour
     {
         [Header("Transform to be followed by camera")]
@@ -20,13 +19,11 @@ namespace FIMSpace.Basics
         /// <summary> Variables to controll distance of camera to following object </summary>
         [Header("Clamp values for zoom of camera")]
         public Vector2 DistanceRanges = new Vector2(5f, 10f);
-
         private float targetDistance;
         private float animatedDistance;
 
         /// <summary> Variables to controll rotation of camera around followed object </summary>
-        public Vector2 RotationRanges = new Vector2(-5f, 60f);
-
+        public Vector2 RotationRanges = new Vector2(-60f, 60f);
         private Vector2 targetSphericRotation = new Vector2(0f, 0f);
         private Vector2 animatedSphericRotation = new Vector2(0f, 0f);
 
@@ -40,7 +37,7 @@ namespace FIMSpace.Basics
         public float RotationSpeed = 1f;
 
         [Header("If you want camera to follow target with some smoothness")]
-        [Range(0f, 1f)]
+        [Range(0f,1f)]
         // V1.1
         public float HardFollowValue = 1f;
 
@@ -62,87 +59,74 @@ namespace FIMSpace.Basics
         [Header("How far forward raycast should check collision for camera")]
         public float CollisionOffset = 1f;
 
-        public EFUpdateClock UpdateClock = EFUpdateClock.Update;
+        //public EFUpdateClock UpdateClock = EFUpdateClock.Update;
 
         /// <summary>
         /// Setting some basic variables for initialization
         /// </summary>
-        private void Start()
+        void Start()
         {
             targetDistance = (DistanceRanges.x + DistanceRanges.y) / 2;
             animatedDistance = DistanceRanges.y;
 
-            targetSphericRotation = new Vector2(transform.eulerAngles.y, transform.eulerAngles.x);
+            targetSphericRotation = new Vector2(0f, 23f);
             animatedSphericRotation = targetSphericRotation;
 
-            //if ( LockCursor )
-            //{
-            //    HelperSwitchCursor();
-            //}
+            if ( LockCursor )
+            {
+                HelperSwitchCursor();
+            }
         }
 
-        //private Vector3 prePos = Vector3.zero;
-
-        private void UpdateMethods()
+        void UpdateMethods()
         {
             InputCalculations();
             ZoomCalculations();
             FollowCalculations();
             RaycastCalculations();
             SwitchCalculations();
-
-            //prePos = transform.position;
         }
 
         /// <summary>
         /// Execute methods responsible for component's behaviour
         /// </summary>
-        private void LateUpdate()
+        void LateUpdate()
         {
-            if (UpdateClock != EFUpdateClock.LateUpdate) return;
+            //if (UpdateClock != EFUpdateClock.LateUpdate) return;
             UpdateMethods();
         }
 
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(1) )
-                if (Cursor.lockState != CursorLockMode.Locked) HelperSwitchCursor();
+        //void Update()
+        //{
+        //    if (UpdateClock != EFUpdateClock.Update) return;
+        //    UpdateMethods();
+        //}
 
-            if ((Input.GetKey(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tab)) )
-                if (Cursor.lockState == CursorLockMode.Locked) HelperSwitchCursor();
+        //void FixedUpdate()
+        //{
+        //    if (UpdateClock != EFUpdateClock.FixedUpdate) return;
+        //    UpdateMethods();
+        //}
 
-            if (UpdateClock != EFUpdateClock.Update) return;
-            UpdateMethods();
-        }
-
-        private void FixedUpdate()
-        {
-            if (UpdateClock != EFUpdateClock.FixedUpdate) return;
-            UpdateMethods();
-        }
-
-        /// <summary>
-        /// Calculations for input mouse controll
+        /// <summary> 
+        /// Calculations for input mouse controll 
         /// </summary>
-        private void InputCalculations()
+        void InputCalculations()
         {
             targetDistance -= (Input.GetAxis("Mouse ScrollWheel") * 5f);
 
             if (!rotateCamera) return;
 
-            if (Cursor.lockState == CursorLockMode.Locked)
-            {
-                targetSphericRotation.x += Input.GetAxis("Mouse X") * RotationSensitivity;
-                targetSphericRotation.y -= Input.GetAxis("Mouse Y") * RotationSensitivity;
-            }
+            targetSphericRotation.x += Input.GetAxis("Mouse X") * RotationSensitivity;
+            targetSphericRotation.y -= Input.GetAxis("Mouse Y") * RotationSensitivity;
         }
 
-        /// <summary>
-        /// Calculations for zoom / distance value of camera
+        /// <summary> 
+        /// Calculations for zoom / distance value of camera 
         /// </summary>
         private void ZoomCalculations()
         {
-            if (!sightObstacleHit.transform) targetDistance = Mathf.Clamp(targetDistance, DistanceRanges.x, DistanceRanges.y);
+            if ( !sightObstacleHit.transform ) targetDistance = Mathf.Clamp(targetDistance, DistanceRanges.x, DistanceRanges.y);
             animatedDistance = Mathf.Lerp(animatedDistance, targetDistance, Time.deltaTime * 8f);
         }
 
@@ -160,7 +144,7 @@ namespace FIMSpace.Basics
 
             Vector3 targetPosition = ToFollow.transform.position + FollowingOffset;
 
-            if (HardFollowValue < 1f)
+            if ( HardFollowValue < 1f)
             {
                 float lerpValue = Mathf.Lerp(0.5f, 40f, HardFollowValue);
                 targetPosition = Vector3.Lerp(this.targetPosition, targetPosition, Time.deltaTime * lerpValue);
@@ -169,8 +153,8 @@ namespace FIMSpace.Basics
             this.targetPosition = targetPosition;
         }
 
-        /// <summary>
-        /// Basic collision check to prevent camera from going through objects
+        /// <summary> 
+        /// Basic collision check to prevent camera from going through objects 
         /// </summary>
         private void RaycastCalculations()
         {
@@ -179,7 +163,7 @@ namespace FIMSpace.Basics
             Ray directionRay = new Ray(followPoint, cameraDir * -Vector3.forward);
 
             // If there is something in sight ray way
-            if (Physics.Raycast(directionRay, out sightObstacleHit, targetDistance + CollisionOffset, SightLayerMask, QueryTriggerInteraction.Ignore))
+            if ( Physics.Raycast(directionRay, out sightObstacleHit, targetDistance + CollisionOffset, SightLayerMask, QueryTriggerInteraction.Ignore) )
             {
                 transform.position = sightObstacleHit.point - directionRay.direction * CollisionOffset;
             }
@@ -190,12 +174,12 @@ namespace FIMSpace.Basics
             }
         }
 
-        /// <summary>
-        /// Calculations for switching cursor state etc.
+        /// <summary> 
+        /// Calculations for switching cursor state etc. 
         /// </summary>
         private void SwitchCalculations()
         {
-            if (LockCursor)
+            if ( LockCursor )
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
                 {
@@ -241,6 +225,6 @@ namespace FIMSpace.Basics
             }
         }
 
-        #endregion Helpers
+        #endregion
     }
 }

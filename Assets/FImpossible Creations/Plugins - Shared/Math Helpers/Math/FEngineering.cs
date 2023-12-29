@@ -211,6 +211,24 @@ namespace FIMSpace
 
         #region Helper Maths
 
+        public static float PerlinNoise3D(float x, float y, float z)
+        {
+            y += 1;
+            z += 2;
+            float xy = Mathf.Sin(Mathf.PI * Mathf.PerlinNoise(x, y));
+            float xz = Mathf.Sin(Mathf.PI * Mathf.PerlinNoise(x, z));
+            float yz = Mathf.Sin(Mathf.PI * Mathf.PerlinNoise(y, z));
+            float yx = Mathf.Sin(Mathf.PI * Mathf.PerlinNoise(y, x));
+            float zx = Mathf.Sin(Mathf.PI * Mathf.PerlinNoise(z, x));
+            float zy = Mathf.Sin(Mathf.PI * Mathf.PerlinNoise(z, y));
+
+            return xy * xz * yz * yx * zx * zy;
+        }
+
+        public static float PerlinNoise3D(Vector3 pos)
+        {
+            return PerlinNoise3D(pos.x, pos.y, pos.z);
+        }
 
         public static bool SameDirection(this float a, float b)
         {

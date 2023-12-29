@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using System.Reflection;
 
 namespace FIMSpace.Generating
 {
@@ -33,6 +34,26 @@ namespace FIMSpace.Generating
 #else
             return GameObject.Instantiate(obj);
 #endif
+        }
+
+        public static void ClearGenerated<T>(List<T> generated) where T : UnityEngine.Object
+        {
+            if (generated == null) return;
+            for (int i = 0; i < generated.Count; i++)
+            {
+                if (generated[i] == null) continue;
+
+                if (generated[i] is Component)
+                {
+                    Component comp = generated[i] as Component;
+                    DestroyObject(comp);
+                    continue;
+                }
+
+                DestroyObject(generated[i]);
+            }
+
+            generated.Clear();
         }
 
         public static bool CheckIfIsNull(object o)
@@ -83,13 +104,13 @@ namespace FIMSpace.Generating
         }
 
 
-        public static void DestroyObject(UnityEngine.Object obj)
+        public static void DestroyObject(UnityEngine.Object obj, bool allowDestroyAssets = false)
         {
             if (obj == null) return;
 
 #if UNITY_EDITOR
             if (Application.isPlaying == false)
-                GameObject.DestroyImmediate(obj);
+                GameObject.DestroyImmediate(obj, allowDestroyAssets);
             else
                 GameObject.Destroy(obj);
 #else
@@ -133,33 +154,38 @@ namespace FIMSpace.Generating
 
             public float GetRandom()
             {
-                return (float)random.NextDouble();
+                return FGenerators.GetRandom(random);
             }
 
             public float GetRandom(float from, float to)
             {
-                return from + (float)random.NextDouble() * (to - from);
+                return FGenerators.GetRandom(from, to, random);
+            }
+
+            public float GetRandomPlusMinus(float range)
+            {
+                return FGenerators.GetRandomPlusMinus(range, random);
             }
 
             /// <summary> To is exclusive, dedicated for arrays </summary>
             public int GetRandom(int from, int to)
             {
-                return random.Next(from, to);
+                return FGenerators.GetRandom(from, to, random);
             }
 
             public int GetRandomInclusive(int from, int to)
             {
-                return random.Next(from, to + 1);
+                return FGenerators.GetRandomInclusive(from, to, random);
             }
 
             public int GetRandom(MinMax minMax)
             {
-                return (int)(minMax.Min + (float)random.NextDouble() * ((minMax.Max + 1) - minMax.Min));
+                return FGenerators.GetRandom(minMax, random);
             }
 
             public bool GetRandomFlip()
             {
-                return GetRandom(0, 2) == 1;
+                return FGenerators.GetRandomFlip( random);
             }
 
             #endregion
@@ -167,6 +193,7 @@ namespace FIMSpace.Generating
 
 
         static System.Random random = new System.Random();
+        public static System.Random GlobalRandomInstance { get { return random; } }
         public static int LatestSeed { get; private set; }
 
         public static void SetSeed(int seed)
@@ -177,12 +204,32 @@ namespace FIMSpace.Generating
 
         public static bool GetRandomFlip()
         {
-            return GetRandom(0, 2) == 1;
+            return GetRandomFlip(random);
+        }
+
+        public static bool GetRandomFlip(System.Random rand)
+        {
+            return GetRandom(0, 2, rand) == 1;
         }
 
         public static float GetRandom()
         {
-            return (float)random.NextDouble();
+            return GetRandom(random);
+        }
+
+        public static int GetRandomInclusive(int from, int to)
+        {
+            return GetRandomInclusive(from, to, random);
+        }
+
+        public static int GetRandomInclusive(int from, int to, System.Random rand)
+        {
+            return rand.Next(from, to + 1);
+        }
+
+        public static float GetRandom(System.Random rand)
+        {
+            return (float)rand.NextDouble();
         }
 
         public static Vector2 SwampToBeRising(Vector2 minMax)
@@ -198,7 +245,7 @@ namespace FIMSpace.Generating
         }
 
         /// <summary> Ensuring 'from' is lower value </summary>
-        public static float GetRandomSwap(float from, float to)
+        public static float GetRandomSwap(float from, float to, System.Random rand)
         {
             if (from > to)
             {
@@ -207,36 +254,67 @@ namespace FIMSpace.Generating
                 to = swapTo;
             }
 
-            return GetRandom(from, to);
+            return GetRandom(from, to, rand);
         }
 
-        public static float GetRandom(float plusminus)
+        /// <summary> Ensuring 'from' is lower value </summary>
+        public static float GetRandomSwap(float from, float to)
         {
-            return GetRandom(-plusminus, plusminus);
+            return GetRandomSwap(from, to, random);
+        }
+
+        public static float GetRandomPlusMinus(float plusminus)
+        {
+            return GetRandomPlusMinus(plusminus, random);
+        }
+
+        public static float GetRandomPlusMinus(float plusminus, System.Random rand)
+        {
+            return GetRandom(-plusminus, plusminus, rand);
         }
 
         public static float GetRandom(float from, float to)
         {
-            return from + (float)random.NextDouble() * (to - from);
+            return GetRandom(from, to, random);
+        }
+
+        public static float GetRandom(float from, float to, System.Random rand)
+        {
+            return from + (float)rand.NextDouble() * (to - from);
         }
 
         public static Vector3 GetRandom(Vector3 plusMinusRangesPerAxis)
         {
+            return GetRandom(plusMinusRangesPerAxis, random);
+        }
+
+        public static Vector3 GetRandom(Vector3 plusMinusRangesPerAxis, System.Random rand)
+        {
             Vector3 p = plusMinusRangesPerAxis;
-            p.x = GetRandom(-p.x, p.x);
-            p.y = GetRandom(-p.y, p.y);
-            p.z = GetRandom(-p.z, p.z);
+            p.x = GetRandom(-p.x, p.x, rand);
+            p.y = GetRandom(-p.y, p.y, rand);
+            p.z = GetRandom(-p.z, p.z, rand);
             return p;
         }
 
         public static int GetRandom(int from, int to)
         {
-            return random.Next(from, to);
+            return GetRandom(from, to, random);
+        }
+
+        public static int GetRandom(int from, int to, System.Random rand)
+        {
+            return rand.Next(from, to);
         }
 
         public static int GetRandom(MinMax minMax)
         {
-            return (int)(minMax.Min + (float)random.NextDouble() * ((minMax.Max + 1) - minMax.Min));
+            return GetRandom(minMax, random);
+        }
+
+        public static int GetRandom(MinMax minMax, System.Random rand)
+        {
+            return (int)(minMax.Min + (float)rand.NextDouble() * ((minMax.Max + 1) - minMax.Min));
         }
 
         #endregion
@@ -410,21 +488,86 @@ namespace FIMSpace.Generating
 
         public static bool IsRightMouseButton()
         {
-            if (Event.current == null) return false;
+            if (UnityEngine.Event.current == null) return false;
 
-            if (Event.current.type == EventType.Used)
-                if (Event.current.button == 1)
+            if (UnityEngine.Event.current.type == UnityEngine.EventType.Used)
+                if (UnityEngine.Event.current.button == 1)
                     return true;
 
             return false;
         }
 
+        /// <summary> Since remembering in which EditorGUI, EditorGUILayout, or EditorGUIUtility, or  GUILayoutUtility ahhh... in which if these classes you will find the desired variable is so confusing ¯\_(ツ)_/¯ each time when trying finding it, ending in googling for forums post with it </summary>
+        public static float InspectorViewWidth()
+        {
+#if UNITY_EDITOR
+            return EditorGUIUtility.currentViewWidth;
+#else
+            return 0f;
+#endif
+
+        }
+
+        /// <summary> Since remembering in which EditorGUI, EditorGUILayout, or EditorGUIUtility, or  GUILayoutUtility ahhh... in which if these classes you will find the desired variable is so confusing ¯\_(ツ)_/¯ each time when trying finding it, ending in googling for unity doc </summary>
+        public static Rect GUILastRect()
+        {
+#if UNITY_EDITOR
+            return GUILayoutUtility.GetLastRect();
+#else
+            return new Rect();
+#endif
+        }
+
+        /// <summary>
+        /// Resetting local position, rotation, scale to zero on 1,1,1 (defaults)
+        /// </summary>
+        public static void ResetCoords(this Transform t)
+        {
+            t.localPosition = Vector3.zero;
+            t.localRotation = Quaternion.identity;
+            t.localScale = Vector3.one;
+        }
+
+
+        /// <summary>
+        /// Working event outside OnGUI
+        /// </summary>
+        public static Vector2 GetEventMousePosition()
+        {
+#if UNITY_EDITOR
+            var field = typeof(Event).GetField("s_Current", BindingFlags.Static | BindingFlags.NonPublic);
+            if (field != null)
+            {
+                Event current = field.GetValue(null) as Event;
+                if (current != null)
+                {
+                    return EditorWindow.focusedWindow.position.position + current.mousePosition;
+                }
+            }
+#endif
+            return Vector2.zero;
+        }
+
+#if UNITY_EDITOR
+        public static string Editor_GetActiveProjectBrowserFolderPath()
+        {
+            MethodInfo getActiveFolderPath = typeof(ProjectWindowUtil).GetMethod(
+    "GetActiveFolderPath",
+    BindingFlags.Static | BindingFlags.NonPublic);
+
+            string folderPath = (string)getActiveFolderPath.Invoke(null, null);
+            return folderPath;
+        }
+
+#endif
+
+
 #if UNITY_EDITOR
         public static void DropDownMenu(GenericMenu menu)
         {
             if (menu == null) return;
-            if (Event.current == null) return;
-            menu.DropDown(new Rect(Event.current.mousePosition + Vector2.left * 100, Vector2.zero));
+            if (UnityEngine.Event.current == null) return;
+            menu.DropDown(new Rect(UnityEngine.Event.current.mousePosition + Vector2.left * 100, Vector2.zero));
         }
 #endif
 
@@ -759,8 +902,18 @@ namespace FIMSpace.Generating
         #region Utilities
 
 
-        public static void SwapElements<T>(List<T> list, int index1, int index2)
+        public static void SwapElements<T>(List<T> list, int index1, int index2, bool loop = false)
         {
+            if (index1 == index2) return;
+
+            if (loop)
+            {
+                if (index1 >= list.Count) index1 -= list.Count;
+                if (index1 < 0) index1 += list.Count;
+                if (index2 >= list.Count) index2 -= list.Count;
+                if (index2 < 0) index2 += list.Count;
+            }
+
             T temp = list[index1];
             list[index1] = list[index2];
             list[index2] = temp;
@@ -768,6 +921,8 @@ namespace FIMSpace.Generating
 
         public static void SwapElements<T>(T[] list, int index1, int index2)
         {
+            if (index1 == index2) return;
+
             T temp = list[index1];
             list[index1] = list[index2];
             list[index2] = temp;
@@ -837,6 +992,7 @@ namespace FIMSpace.Generating
             //    }
             //}
         }
+
 
         public static void Shuffle<T>(this IList<T> list)
         {
@@ -911,6 +1067,7 @@ namespace FIMSpace.Generating
 
         private static float _editorUiScaling;
         public static float EditorUIScale { get { return GetEditorUIScale(); } }
+
         public static float GetEditorUIScale()
         {
 #if UNITY_EDITOR
@@ -934,6 +1091,8 @@ return 1f;
 
         #region Other Editor Related
 
+        public static readonly Color Color_Remove = new Color(1f, 0.825f, 0.825f, 1f);
+
 #if UNITY_EDITOR
         /// <summary> !!! EDITOR ONLY METHOD !!! </summary>
         public static void Editor_IteratorReload(SerializedProperty iterator, bool doNextEnter = true, bool deepCheck = false, bool fullCheck = false)
@@ -950,16 +1109,16 @@ return 1f;
 
             Rect drawRect = new Rect(-1000, 0, 2, 2);
 
-            if ( fullCheck)
+            if (fullCheck)
             {
                 while (refreshIterator.Next(false))
                 {
                     EditorGUI.PropertyField(drawRect, refreshIterator, true);
 
                     var deppIter = refreshIterator.Copy();
-                    if ( deppIter.Next(true))
+                    if (deppIter.Next(true))
                     {
-                        while(deppIter.Next(false))
+                        while (deppIter.Next(false))
                         {
                             EditorGUI.PropertyField(drawRect, deppIter, true);
                         }
@@ -981,12 +1140,14 @@ return 1f;
                 }
             }
         }
+
+
 #endif
 
-#endregion
+        #endregion
 
 
-#endregion
+        #endregion
 
     }
 
@@ -1055,7 +1216,7 @@ return 1f;
         }
 
 
-        protected virtual void DrawGUIWithPrefab(Color color, int previewSize , string predicate , Action clickCallback , Action removeCallback , bool drawThumbnail = true, bool drawPrefabField = true)
+        protected virtual void DrawGUIWithPrefab(Color color, int previewSize = 72, string predicate = "", Action clickCallback = null, Action removeCallback = null, bool drawThumbnail = true, bool drawPrefabField = true)
         {
 #if UNITY_EDITOR
             if (drawThumbnail)
@@ -1081,7 +1242,7 @@ return 1f;
 
 
 
-        protected virtual void DrawGUIWithoutPrefab(int previewSize, string predicate , Action removeCallback, bool drawPrefabField = true)
+        protected virtual void DrawGUIWithoutPrefab(int previewSize = 72, string predicate = "", Action removeCallback = null, bool drawPrefabField = true)
         {
 #if UNITY_EDITOR
             EditorGUILayout.BeginHorizontal();
@@ -1105,7 +1266,7 @@ return 1f;
 
 
 
-        public static void DrawPrefabField(PrefabReference prefabRef, Color defaultColor, string predicate , int previewSize, Action clickCallback, Action removeCallback, bool drawThumbnail = true, UnityEngine.Object toDiry = null, bool drawPrefabField = true, bool drawAdditionalButtons = true)
+        public static void DrawPrefabField(PrefabReference prefabRef, Color defaultColor, string predicate = "", int previewSize = 72, Action clickCallback = null, Action removeCallback = null, bool drawThumbnail = true, UnityEngine.Object toDiry = null, bool drawPrefabField = true, bool drawAdditionalButtons = true)
         {
 #if UNITY_EDITOR
             Color bc = GUI.backgroundColor;
@@ -1379,16 +1540,16 @@ return 1f;
 
                     GUI.Box(drop, new GUIContent(FGUI_Resources.Tex_Drag, "Drag & Drop prefabs here"), d);
 
-                    var dropEvent = Event.current;
+                    var dropEvent = UnityEngine.Event.current;
 
                     if (dropEvent != null)
                     {
-                        if (dropEvent.type == EventType.DragPerform || dropEvent.type == EventType.DragUpdated)
+                        if (dropEvent.type == UnityEngine.EventType.DragPerform || dropEvent.type == UnityEngine.EventType.DragUpdated)
                             if (drop.Contains(dropEvent.mousePosition))
                             {
                                 DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
 
-                                if (dropEvent.type == EventType.DragPerform)
+                                if (dropEvent.type == UnityEngine.EventType.DragPerform)
                                 {
                                     DragAndDrop.AcceptDrag();
                                     foreach (var dragged in DragAndDrop.objectReferences)
@@ -1406,7 +1567,7 @@ return 1f;
                                     }
                                 }
 
-                                Event.current.Use();
+                                UnityEngine.Event.current.Use();
                             }
                     }
 
