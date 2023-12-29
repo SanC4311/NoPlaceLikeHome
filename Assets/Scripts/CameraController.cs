@@ -6,8 +6,8 @@ using Cinemachine;
 public class CameraController : MonoBehaviour
 {
 
-    private const float Y_ANGLE_MIN = 2f;
-    private const float Y_ANGLE_MAX = 12f;
+    private const float Y_ANGLE_MIN = 1.6f;
+    private const float Y_ANGLE_MAX = 7f;
 
     private Vector3 offset;
 

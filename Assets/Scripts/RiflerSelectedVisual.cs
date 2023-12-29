@@ -7,11 +7,11 @@ public class RiflerSelectedVisual : MonoBehaviour
 {
     [SerializeField] private Rifler rifler;
 
-    private MeshRenderer meshRenderer;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -30,11 +30,11 @@ public class RiflerSelectedVisual : MonoBehaviour
     {
         if (RiflerActionSystem.Instance.GetSelectedRifler() == rifler)
         {
-            meshRenderer.enabled = true;
+            spriteRenderer.enabled = true;
         }
         else
         {
-            meshRenderer.enabled = false;
+            spriteRenderer.enabled = false;
         }
     }
 }
