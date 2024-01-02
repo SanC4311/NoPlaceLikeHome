@@ -28,7 +28,7 @@ public class RiflerActionSystem : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetMouseButtonDown(0))
+        if (GameInput.Instance.isLeftMouseButtonDownThisFrame())
         {
             if (TryHandleRiflerSelection()) return;
             selectedRifler.Move(MouseWorld.GetPosition());
@@ -38,7 +38,7 @@ public class RiflerActionSystem : MonoBehaviour
 
     private bool TryHandleRiflerSelection()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(GameInput.Instance.GetMouseScreenPosition());
         if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, riflerLayerMask))
         {
             if (raycastHit.transform.TryGetComponent<Rifler>(out Rifler rifler))

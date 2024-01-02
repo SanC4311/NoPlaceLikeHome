@@ -31,40 +31,18 @@ public class CameraController : MonoBehaviour
 
     private void camMovement()
     {
-        Vector3 inputMoveDirection = new Vector3(0, 0, 0);
-        if (Input.GetKey(KeyCode.W))
-        {
-            inputMoveDirection.z += 1;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            inputMoveDirection.z -= 1;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            inputMoveDirection.x -= 1;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            inputMoveDirection.x += 1;
-        }
+        Vector2 inputMoveDirection = GameInput.Instance.GetCamMoveVector();
 
         float camSpeed = 10f;
-        Vector3 movement = transform.forward * inputMoveDirection.z + transform.right * inputMoveDirection.x;
+
+        Vector3 movement = transform.forward * inputMoveDirection.y + transform.right * inputMoveDirection.x;
         transform.position += movement * camSpeed * Time.deltaTime;
     }
 
     private void camRotation()
     {
         Vector3 rotVector = new Vector3(0, 0, 0);
-        if (Input.GetKey(KeyCode.Q))
-        {
-            rotVector.y -= 1;
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            rotVector.y += 1;
-        }
+        rotVector.y = GameInput.Instance.GetCamRotation();
 
         float rotSpeed = 100f;
 
@@ -73,15 +51,9 @@ public class CameraController : MonoBehaviour
 
     private void camZoom()
     {
-        float zoomAmount = 1f;
-        if (Input.mouseScrollDelta.y > 0)
-        {
-            offset.y -= zoomAmount;
-        }
-        if (Input.mouseScrollDelta.y < 0)
-        {
-            offset.y += zoomAmount;
-        }
+        float zoomIncAmount = 1f;
+        offset.y += GameInput.Instance.GetCamZoom() * zoomIncAmount;
+
         offset.y = Mathf.Clamp(offset.y, Y_ANGLE_MIN, Y_ANGLE_MAX);
 
         float zoomSmooth = 5f;
