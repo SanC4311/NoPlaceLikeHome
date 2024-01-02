@@ -113,11 +113,11 @@ public class GameInput : MonoBehaviour
         }
         else
         {
-            if (gameInputActions.Player.DPadUp.WasPressedThisFrame())
+            if (gameInputActions.Player.DPadDown.WasPressedThisFrame())
             {
                 zoom -= 1f;
             }
-            if (gameInputActions.Player.DPadDown.WasPressedThisFrame())
+            if (gameInputActions.Player.DPadUp.WasPressedThisFrame())
             {
                 zoom += 1f;
             }
