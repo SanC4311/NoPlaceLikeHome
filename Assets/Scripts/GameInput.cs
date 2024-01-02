@@ -1,4 +1,5 @@
 #define USE_NEW_INPUT_SYSTEM
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,10 +28,18 @@ public class GameInput : MonoBehaviour
 
     public Vector2 GetMouseScreenPosition()
     {
-        Debug.Log("InputMouse: " + gameInputActions.Player.MousePosition.ReadValue<Vector2>());
+        Debug.Log("InputMouse: " + Input.mousePosition);
+        Debug.Log("InputVirtualMouse: " + gameInputActions.Player.VirtualMousePosition.ReadValue<Vector2>());
 
 #if USE_NEW_INPUT_SYSTEM
-        return gameInputActions.Player.MousePosition.ReadValue<Vector2>();
+        if (GamepadCursor.Instance.IsMouseControlScheme)
+        {
+            return Input.mousePosition;
+        }
+        else
+        {
+            return gameInputActions.Player.VirtualMousePosition.ReadValue<Vector2>();
+        }
 #else
         return Input.mousePosition;
 #endif
@@ -95,8 +104,25 @@ public class GameInput : MonoBehaviour
 
     public float GetCamZoom()
     {
+        float zoom = 0f;
 #if USE_NEW_INPUT_SYSTEM
-        return gameInputActions.Player.CamZoom.ReadValue<float>();
+
+        if (GamepadCursor.Instance.IsMouseControlScheme)
+        {
+            return gameInputActions.Player.CamZoom.ReadValue<float>();
+        }
+        else
+        {
+            if (gameInputActions.Player.DPadUp.WasPressedThisFrame())
+            {
+                zoom -= 1f;
+            }
+            if (gameInputActions.Player.DPadDown.WasPressedThisFrame())
+            {
+                zoom += 1f;
+            }
+            return zoom;
+        }
 #else
         float zoom = 0f;
 

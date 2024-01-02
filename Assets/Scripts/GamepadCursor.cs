@@ -18,7 +18,21 @@ public class GamepadCursor : MonoBehaviour
     private string previousControlScheme = "";
     private const string gamepadScheme = "Gamepad";
     private const string keyboardMouseScheme = "Keyboard&Mouse";
+    public bool IsMouseControlScheme { get; private set; }
 
+
+    public static GamepadCursor Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("There is more than one GamepadCursor in the scene !" + transform + " - " + Instance);
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     private void OnEnable()
     {
@@ -48,7 +62,7 @@ public class GamepadCursor : MonoBehaviour
 
     private void OnDisable()
     {
-        InputSystem.RemoveDevice(virtualMouse);
+        if (virtualMouse != null && virtualMouse.added) InputSystem.RemoveDevice(virtualMouse);
         InputSystem.onAfterUpdate -= UpdateMotion;
         playerInput.onControlsChanged -= OnControlsChanged;
     }
@@ -89,15 +103,17 @@ public class GamepadCursor : MonoBehaviour
         cursorRectTransform.anchoredPosition = anchoredPosition;
     }
 
-    private void OnControlsChanged(PlayerInput playerInput)
+    public void OnControlsChanged(PlayerInput playerInput)
     {
         if (playerInput.currentControlScheme == keyboardMouseScheme && previousControlScheme != keyboardMouseScheme)
         {
             cursorRectTransform.gameObject.SetActive(false);
-            Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             currentMouse.WarpCursorPosition(virtualMouse.position.ReadValue());
+
             previousControlScheme = keyboardMouseScheme;
+
+            IsMouseControlScheme = true;
         }
         else if (playerInput.currentControlScheme == gamepadScheme && previousControlScheme != gamepadScheme)
         {
@@ -105,8 +121,12 @@ public class GamepadCursor : MonoBehaviour
             Cursor.visible = false;
             InputState.Change(virtualMouse.position, currentMouse.position.ReadValue());
             AnchorCursor(currentMouse.position.ReadValue());
-            Cursor.lockState = CursorLockMode.Locked;
+
             previousControlScheme = gamepadScheme;
+
+            IsMouseControlScheme = false;
         }
     }
+
+
 }

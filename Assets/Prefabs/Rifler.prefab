@@ -32,6 +32,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 455160364371763856}
+  - {fileID: 7949259727305802709}
+  - {fileID: 2552935557534749171}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5437740349155384482
@@ -564,8 +566,6 @@ Transform:
   - {fileID: 455309513737037838}
   - {fileID: 455232876273772946}
   - {fileID: 455378206602436546}
-  - {fileID: 7949259727305802709}
-  - {fileID: 2552935557534749171}
   m_Father: {fileID: 357420028502129001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &509560779978727916
@@ -6630,12 +6630,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6614998430112095736}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2.07, z: 0}
   m_LocalScale: {x: 0.15342501, y: 0.15342501, z: 0.15342501}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 455160364371763856}
+  m_Father: {fileID: 357420028502129001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4708282936628913704
 SpriteRenderer:
@@ -6730,13 +6730,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7785428774120509812}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.86602545, y: 0.49999994, z: 0, w: 0}
-  m_LocalPosition: {x: -0.016, y: 2.56, z: 0}
-  m_LocalScale: {x: 0.333312, y: 0.333312, z: 0.333312}
+  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalScale: {x: 0.18, y: 0.18, z: 0.18}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 455160364371763856}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 120}
+  m_Father: {fileID: 357420028502129001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!114 &6227356126628179375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6791,7 +6791,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1ab78dabd86dd174ebe4249de1467f85, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 37a0f55d824d153418319d546ee63f0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6814,7 +6814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 340a740eecd1c43f49dc524991a21be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateOffset: {x: 0, y: 180, z: 120}
+  rotateOffset: {x: 0, y: 0, z: 180}
   mode: 3
 --- !u!1001 &3234430235154042205
 PrefabInstance:
@@ -6960,18 +6960,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 454810586788457744}
     m_Modifications:
-    - target: {fileID: 1016780114079376, guid: c25ac4fdc903e7d49a7520930673ecd6, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1549202553469370, guid: c25ac4fdc903e7d49a7520930673ecd6, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1808146768170148, guid: c25ac4fdc903e7d49a7520930673ecd6, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: 1490873028196816, guid: a3fe0be603767ae42a0d14c81d777c2b, type: 3}
       propertyPath: m_Name
       value: SM_Wep_AssaultRifle_03
@@ -7042,6 +7030,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5e8fc9c7c99b13c42a3462f542806e21, type: 2}
+    - target: {fileID: 1016780114079376, guid: c25ac4fdc903e7d49a7520930673ecd6, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549202553469370, guid: c25ac4fdc903e7d49a7520930673ecd6, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808146768170148, guid: c25ac4fdc903e7d49a7520930673ecd6, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

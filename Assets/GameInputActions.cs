@@ -51,7 +51,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""id"": ""8f0f3643-f8a3-46d1-823e-cba2505169fb"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -66,11 +66,38 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""MousePosition"",
                     ""type"": ""Value"",
-                    ""id"": ""7fd7ca17-a842-41e5-8ebe-206dc7188af6"",
+                    ""id"": ""c92479c0-62c7-4878-a10d-a1700251cb3f"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""VirtualMousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""f2b7754f-aaa2-49df-9f75-d2e0a109f101"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""DPadUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""502a434a-c3f3-473e-a460-c33b3d6fd883"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DPadDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""8bd022c6-9471-4cb8-96ef-7cfc68317397"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -273,39 +300,6 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""01996b3f-65c7-4d77-a2b6-f0807cb8bb1e"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CamZoom"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""e51004b3-2487-43d3-9c1b-016b2934122a"",
-                    ""path"": ""<Gamepad>/dpad/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""CamZoom"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""78324b2a-5eaa-4ffa-9c55-08b1c7dfbb22"",
-                    ""path"": ""<Gamepad>/dpad/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""CamZoom"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""f36107e6-4ea8-4e2f-a7be-de9db1878672"",
                     ""path"": ""<Mouse>/leftButton"",
@@ -329,23 +323,45 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9be95e17-010a-4eb3-ad56-8f1c655404fa"",
+                    ""id"": ""699ed499-a0d2-42e0-a89a-5f6d7c038ae2"",
                     ""path"": ""<VirtualMouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""VirtualMousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36fe30a3-1fb6-40ce-aadb-2bf6484c31cb"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7dd2dc48-cb5c-43d1-802a-b588426a9d15"",
-                    ""path"": ""<Mouse>/position"",
+                    ""id"": ""ec1415ca-2d9f-400b-a26d-993375426eb7"",
+                    ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""MousePosition"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""DPadUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b2b50b4-d701-4b5a-982c-cb8dbf51eb54"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""DPadDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -943,6 +959,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         m_Player_CamZoom = m_Player.FindAction("CamZoom", throwIfNotFound: true);
         m_Player_LeftMouseClick = m_Player.FindAction("LeftMouseClick", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
+        m_Player_VirtualMousePosition = m_Player.FindAction("VirtualMousePosition", throwIfNotFound: true);
+        m_Player_DPadUp = m_Player.FindAction("DPadUp", throwIfNotFound: true);
+        m_Player_DPadDown = m_Player.FindAction("DPadDown", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1021,6 +1040,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CamZoom;
     private readonly InputAction m_Player_LeftMouseClick;
     private readonly InputAction m_Player_MousePosition;
+    private readonly InputAction m_Player_VirtualMousePosition;
+    private readonly InputAction m_Player_DPadUp;
+    private readonly InputAction m_Player_DPadDown;
     public struct PlayerActions
     {
         private @GameInputActions m_Wrapper;
@@ -1030,6 +1052,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         public InputAction @CamZoom => m_Wrapper.m_Player_CamZoom;
         public InputAction @LeftMouseClick => m_Wrapper.m_Player_LeftMouseClick;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
+        public InputAction @VirtualMousePosition => m_Wrapper.m_Player_VirtualMousePosition;
+        public InputAction @DPadUp => m_Wrapper.m_Player_DPadUp;
+        public InputAction @DPadDown => m_Wrapper.m_Player_DPadDown;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1054,6 +1079,15 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
+            @VirtualMousePosition.started += instance.OnVirtualMousePosition;
+            @VirtualMousePosition.performed += instance.OnVirtualMousePosition;
+            @VirtualMousePosition.canceled += instance.OnVirtualMousePosition;
+            @DPadUp.started += instance.OnDPadUp;
+            @DPadUp.performed += instance.OnDPadUp;
+            @DPadUp.canceled += instance.OnDPadUp;
+            @DPadDown.started += instance.OnDPadDown;
+            @DPadDown.performed += instance.OnDPadDown;
+            @DPadDown.canceled += instance.OnDPadDown;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1073,6 +1107,15 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
+            @VirtualMousePosition.started -= instance.OnVirtualMousePosition;
+            @VirtualMousePosition.performed -= instance.OnVirtualMousePosition;
+            @VirtualMousePosition.canceled -= instance.OnVirtualMousePosition;
+            @DPadUp.started -= instance.OnDPadUp;
+            @DPadUp.performed -= instance.OnDPadUp;
+            @DPadUp.canceled -= instance.OnDPadUp;
+            @DPadDown.started -= instance.OnDPadDown;
+            @DPadDown.performed -= instance.OnDPadDown;
+            @DPadDown.canceled -= instance.OnDPadDown;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1233,6 +1276,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         void OnCamZoom(InputAction.CallbackContext context);
         void OnLeftMouseClick(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnVirtualMousePosition(InputAction.CallbackContext context);
+        void OnDPadUp(InputAction.CallbackContext context);
+        void OnDPadDown(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
