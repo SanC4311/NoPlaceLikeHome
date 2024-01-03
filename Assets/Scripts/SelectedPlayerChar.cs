@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCharSelectedVisual : MonoBehaviour
+public class SelectedPlayerChar : MonoBehaviour
 {
     [SerializeField] private PlayerChar playerChar;
 
@@ -16,19 +16,19 @@ public class PlayerCharSelectedVisual : MonoBehaviour
 
     private void Start()
     {
-        PlayerCharActionSystem.Instance.OnSelectedPlayerCharChanged += PlayerCharActionSystem_OnSelectedPlayerCharChanged;
+        PlayerActions.Instance.OnSelectedPlayerCharChanged += PlayerActions_OnSelectedPlayerCharChanged;
 
         UpdateVisual();
     }
 
-    private void PlayerCharActionSystem_OnSelectedPlayerCharChanged(object sender, EventArgs empty)
+    private void PlayerActions_OnSelectedPlayerCharChanged(object sender, EventArgs empty)
     {
         UpdateVisual();
     }
 
     private void UpdateVisual()
     {
-        if (PlayerCharActionSystem.Instance.GetSelectedPlayerChar() == playerChar)
+        if (PlayerActions.Instance.GetSelectedPlayerChar() == playerChar)
         {
             spriteRenderer.enabled = true;
         }

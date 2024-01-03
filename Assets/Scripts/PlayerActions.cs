@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCharActionSystem : MonoBehaviour
+public class PlayerActions : MonoBehaviour
 {
 
-    public static PlayerCharActionSystem Instance { get; private set; }
+    public static PlayerActions Instance { get; private set; }
 
     public event EventHandler OnSelectedPlayerCharChanged;
 
@@ -17,7 +17,7 @@ public class PlayerCharActionSystem : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.LogError("There is more than one PlayerCharActionSystem in the scene !" + transform + " - " + Instance);
+            Debug.LogError("There is more than one PlayerActions in the scene !" + transform + " - " + Instance);
             Destroy(gameObject);
             return;
         }
