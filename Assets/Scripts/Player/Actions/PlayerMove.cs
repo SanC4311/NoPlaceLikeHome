@@ -2,23 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerChar : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] private Animator playerCharAnimator;
     [SerializeField] private float rotateSpeed = 4f;
     [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private Animator playerCharAnimator;
     private Vector3 targetPosition;
-    private GridPosition gridPosition;
-
     private void Awake()
     {
         targetPosition = transform.position;
-    }
-
-    private void Start()
-    {
-        gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        LevelGrid.Instance.AddPlayerCharAtGridPosition(gridPosition, this);
     }
 
     private void Update()
@@ -40,18 +32,12 @@ public class PlayerChar : MonoBehaviour
         {
             playerCharAnimator.SetBool("IsWalking", false);
         }
-
-        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        if (newGridPosition != gridPosition)
-        {
-            LevelGrid.Instance.PlayerCharMovedGridPosition(this, gridPosition, newGridPosition);
-            gridPosition = newGridPosition;
-        }
     }
 
     public void Move(Vector3 targetPosition)
     {
         this.targetPosition = targetPosition;
     }
+
 
 }

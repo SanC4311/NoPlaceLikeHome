@@ -31,7 +31,7 @@ public class PlayerActions : MonoBehaviour
         if (GameInput.Instance.isLeftMouseButtonDownThisFrame())
         {
             if (TryHandlePlayerCharSelection()) return;
-            selectedPlayerChar.Move(MouseWorld.GetPosition());
+            selectedPlayerChar.GetPlayerMove().Move(MouseWorld.GetPosition());
         }
 
     }

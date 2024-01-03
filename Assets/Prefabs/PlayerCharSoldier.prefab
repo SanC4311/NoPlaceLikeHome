@@ -443,7 +443,7 @@ GameObject:
   - component: {fileID: 5133423133079139717}
   - component: {fileID: 4212249042826692299}
   m_Layer: 7
-  m_Name: SM_Chr_Wanderer_Male_01
+  m_Name: CharacterInner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3989,6 +3989,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2836370500739460092}
   - component: {fileID: 267615284417500379}
+  - component: {fileID: 6027123714818304036}
   - component: {fileID: 3263400986659148982}
   m_Layer: 7
   m_Name: PlayerCharSoldier
@@ -4027,9 +4028,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ccb22b10a92743b3bbc21f0c305fd66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCharAnimator: {fileID: 6608938496113675912}
+--- !u!114 &6027123714818304036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4715899452111916215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55c2f801d8de4f9291a3c873935e4f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   rotateSpeed: 6
   moveSpeed: 3.2
+  playerCharAnimator: {fileID: 6608938496113675912}
 --- !u!65 &3263400986659148982
 BoxCollider:
   m_ObjectHideFlags: 0
