@@ -24,28 +24,28 @@ public class LevelGrid : MonoBehaviour
         gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
     }
 
-    public void AddRiflerAtGridPosition(GridPosition gridPosition, Rifler rifler)
+    public void AddPlayerCharAtGridPosition(GridPosition gridPosition, PlayerChar playerChar)
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
-        gridObject.AddRifler(rifler);
+        gridObject.AddPlayerChar(playerChar);
     }
 
-    public List<Rifler> GetRiflerListAtGridPosition(GridPosition gridPosition)
+    public List<PlayerChar> GetPlayerCharListAtGridPosition(GridPosition gridPosition)
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
-        return gridObject.GetRiflerList();
+        return gridObject.GetPlayerCharList();
     }
 
-    public void RemoveRiflerAtGridPosition(GridPosition gridPosition, Rifler rifler)
+    public void RemovePlayerCharAtGridPosition(GridPosition gridPosition, PlayerChar playerChar)
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
-        gridObject.RemoveRifler(rifler);
+        gridObject.RemovePlayerChar(playerChar);
     }
 
-    public void RiflerMovedGridPosition(Rifler rifler, GridPosition oldGridPosition, GridPosition newGridPosition)
+    public void PlayerCharMovedGridPosition(PlayerChar playerChar, GridPosition oldGridPosition, GridPosition newGridPosition)
     {
-        RemoveRiflerAtGridPosition(oldGridPosition, rifler);
-        AddRiflerAtGridPosition(newGridPosition, rifler);
+        RemovePlayerCharAtGridPosition(oldGridPosition, playerChar);
+        AddPlayerCharAtGridPosition(newGridPosition, playerChar);
     }
     public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
 }

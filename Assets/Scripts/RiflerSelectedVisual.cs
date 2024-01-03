@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RiflerSelectedVisual : MonoBehaviour
+public class PlayerCharSelectedVisual : MonoBehaviour
 {
-    [SerializeField] private Rifler rifler;
+    [SerializeField] private PlayerChar playerChar;
 
     private SpriteRenderer spriteRenderer;
 
@@ -16,19 +16,19 @@ public class RiflerSelectedVisual : MonoBehaviour
 
     private void Start()
     {
-        RiflerActionSystem.Instance.OnSelectedRiflerChanged += RiflerActionSystem_OnSelectedRiflerChanged;
+        PlayerCharActionSystem.Instance.OnSelectedPlayerCharChanged += PlayerCharActionSystem_OnSelectedPlayerCharChanged;
 
         UpdateVisual();
     }
 
-    private void RiflerActionSystem_OnSelectedRiflerChanged(object sender, EventArgs empty)
+    private void PlayerCharActionSystem_OnSelectedPlayerCharChanged(object sender, EventArgs empty)
     {
         UpdateVisual();
     }
 
     private void UpdateVisual()
     {
-        if (RiflerActionSystem.Instance.GetSelectedRifler() == rifler)
+        if (PlayerCharActionSystem.Instance.GetSelectedPlayerChar() == playerChar)
         {
             spriteRenderer.enabled = true;
         }

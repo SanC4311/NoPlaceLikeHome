@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ccb22b10a92743b3bbc21f0c305fd66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  riflerAnimator: {fileID: 509560779978727916}
+  playerCharAnimator: {fileID: 509560779978727916}
   rotateSpeed: 6
   moveSpeed: 3.2
 --- !u!65 &3356503937497360326
@@ -6815,7 +6815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded60f5de5f8443f0b2738ab20e61f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rifler: {fileID: 5437740349155384482}
+  playerChar: {fileID: 5437740349155384482}
 --- !u!1001 &3234430235154042205
 PrefabInstance:
   m_ObjectHideFlags: 0

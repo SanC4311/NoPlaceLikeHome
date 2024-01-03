@@ -3,21 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RiflerActionSystem : MonoBehaviour
+public class PlayerCharActionSystem : MonoBehaviour
 {
 
-    public static RiflerActionSystem Instance { get; private set; }
+    public static PlayerCharActionSystem Instance { get; private set; }
 
-    public event EventHandler OnSelectedRiflerChanged;
+    public event EventHandler OnSelectedPlayerCharChanged;
 
-    [SerializeField] private Rifler selectedRifler;
-    [SerializeField] private LayerMask riflerLayerMask;
+    [SerializeField] private PlayerChar selectedPlayerChar;
+    [SerializeField] private LayerMask playerCharLayerMask;
 
     private void Awake()
     {
         if (Instance != null)
         {
-            Debug.LogError("There is more than one RiflerActionSystem in the scene !" + transform + " - " + Instance);
+            Debug.LogError("There is more than one PlayerCharActionSystem in the scene !" + transform + " - " + Instance);
             Destroy(gameObject);
             return;
         }
@@ -30,20 +30,20 @@ public class RiflerActionSystem : MonoBehaviour
 
         if (GameInput.Instance.isLeftMouseButtonDownThisFrame())
         {
-            if (TryHandleRiflerSelection()) return;
-            selectedRifler.Move(MouseWorld.GetPosition());
+            if (TryHandlePlayerCharSelection()) return;
+            selectedPlayerChar.Move(MouseWorld.GetPosition());
         }
 
     }
 
-    private bool TryHandleRiflerSelection()
+    private bool TryHandlePlayerCharSelection()
     {
         Ray ray = Camera.main.ScreenPointToRay(GameInput.Instance.GetMouseScreenPosition());
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, riflerLayerMask))
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, playerCharLayerMask))
         {
-            if (raycastHit.transform.TryGetComponent<Rifler>(out Rifler rifler))
+            if (raycastHit.transform.TryGetComponent<PlayerChar>(out PlayerChar playerChar))
             {
-                SetSelectedRifler(rifler);
+                SetSelectedPlayerChar(playerChar);
                 return true;
             }
         }
@@ -51,15 +51,15 @@ public class RiflerActionSystem : MonoBehaviour
 
     }
 
-    private void SetSelectedRifler(Rifler rifler)
+    private void SetSelectedPlayerChar(PlayerChar playerChar)
     {
-        selectedRifler = rifler;
-        OnSelectedRiflerChanged?.Invoke(this, EventArgs.Empty);
+        selectedPlayerChar = playerChar;
+        OnSelectedPlayerCharChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public Rifler GetSelectedRifler()
+    public PlayerChar GetSelectedPlayerChar()
     {
-        return selectedRifler;
+        return selectedPlayerChar;
     }
 
 }

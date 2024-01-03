@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rifler : MonoBehaviour
+public class PlayerChar : MonoBehaviour
 {
-    [SerializeField] private Animator riflerAnimator;
+    [SerializeField] private Animator playerCharAnimator;
     [SerializeField] private float rotateSpeed = 4f;
     [SerializeField] private float moveSpeed = 4f;
     private Vector3 targetPosition;
@@ -18,7 +18,7 @@ public class Rifler : MonoBehaviour
     private void Start()
     {
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        LevelGrid.Instance.AddRiflerAtGridPosition(gridPosition, this);
+        LevelGrid.Instance.AddPlayerCharAtGridPosition(gridPosition, this);
     }
 
     private void Update()
@@ -34,17 +34,17 @@ public class Rifler : MonoBehaviour
             Vector3 directMovement = transform.forward;
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, rotateSpeed * Time.deltaTime);
 
-            riflerAnimator.SetBool("IsWalking", true);
+            playerCharAnimator.SetBool("IsWalking", true);
         }
         else
         {
-            riflerAnimator.SetBool("IsWalking", false);
+            playerCharAnimator.SetBool("IsWalking", false);
         }
 
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if (newGridPosition != gridPosition)
         {
-            LevelGrid.Instance.RiflerMovedGridPosition(this, gridPosition, newGridPosition);
+            LevelGrid.Instance.PlayerCharMovedGridPosition(this, gridPosition, newGridPosition);
             gridPosition = newGridPosition;
         }
     }
