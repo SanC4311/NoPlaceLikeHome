@@ -3,44 +3,56 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : PlayerControl
 {
-    [SerializeField] private float rotateSpeed = 4f;
-    [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private float rotateSpeed = 3f;
+    [SerializeField] private float moveSpeed = 3.2f;
     [SerializeField] private Animator playerCharAnimator;
     [SerializeField] private int maxMoveDistance = 4;
     private Vector3 targetPosition;
-    private PlayerChar playerChar;
-    private void Awake()
+    protected override void Awake()
     {
-        playerChar = GetComponent<PlayerChar>();
+        base.Awake();
         targetPosition = transform.position;
     }
 
     private void Update()
     {
+        if (!isActive)
+        {
+            return;
+        }
+
+        Vector3 moveDirection = (targetPosition - transform.position).normalized;
         float stoppingDistance = 0.1f;
 
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
-
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
-            Vector3 directMovement = transform.forward;
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, rotateSpeed * Time.deltaTime);
-
+            // Set IsWalking to true
             playerCharAnimator.SetBool("IsWalking", true);
         }
         else
         {
+            // Set IsWalking to false
             playerCharAnimator.SetBool("IsWalking", false);
+            isActive = false;
+        }
+
+        // Adjust rotation to only consider the y-axis
+        Vector3 horizontalMoveDirection = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
+        if (horizontalMoveDirection != Vector3.zero) // Check to avoid setting a zero rotation
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(horizontalMoveDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         }
     }
 
     public void Move(GridPosition gridPosition)
     {
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        isActive = true;
     }
 
     public bool IsValidPosition(GridPosition gridPosition)

@@ -4043,6 +4043,7 @@ MonoBehaviour:
   rotateSpeed: 6
   moveSpeed: 3.2
   playerCharAnimator: {fileID: 6608938496113675912}
+  maxMoveDistance: 1
 --- !u!65 &3263400986659148982
 BoxCollider:
   m_ObjectHideFlags: 0
