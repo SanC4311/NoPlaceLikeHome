@@ -15,15 +15,15 @@ public class GamepadCursor : MonoBehaviour
     private bool previousMouseState;
     private Mouse virtualMouse;
     private Camera mainCamera;
-    private string previousControlScheme = "";
+    private string previousControlScheme = "Keyboard&Mouse";
     private const string gamepadScheme = "Gamepad";
     private const string keyboardMouseScheme = "Keyboard&Mouse";
     public bool IsMouseControlScheme { get; private set; }
 
-
     public static GamepadCursor Instance { get; private set; }
     private void Awake()
     {
+        IsMouseControlScheme = true;
         if (Instance != null)
         {
             Debug.LogError("There is more than one GamepadCursor in the scene !" + transform + " - " + Instance);
@@ -105,6 +105,24 @@ public class GamepadCursor : MonoBehaviour
 
     public void OnControlsChanged(PlayerInput playerInput)
     {
+        if (playerInput == null)
+        {
+            Debug.Log("OnControlsChanged called with null PlayerInput");
+            throw new System.ArgumentNullException(nameof(playerInput));
+        }
+
+        if (playerInput.currentControlScheme == null)
+        {
+            Debug.Log("PlayerInput's currentControlScheme is null");
+            return;
+        }
+
+        if (cursorRectTransform == null || virtualMouse == null || currentMouse == null)
+        {
+            Debug.Log($"Null object detected - cursorRectTransform: {cursorRectTransform}, virtualMouse: {virtualMouse}, currentMouse: {currentMouse}");
+            return;
+        }
+
         if (playerInput.currentControlScheme == keyboardMouseScheme && previousControlScheme != keyboardMouseScheme)
         {
             cursorRectTransform.gameObject.SetActive(false);
@@ -127,6 +145,7 @@ public class GamepadCursor : MonoBehaviour
             IsMouseControlScheme = false;
         }
     }
+
 
 
 }
