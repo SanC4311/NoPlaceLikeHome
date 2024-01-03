@@ -31,7 +31,15 @@ public class PlayerActions : MonoBehaviour
         if (GameInput.Instance.isLeftMouseButtonDownThisFrame())
         {
             if (TryHandlePlayerCharSelection()) return;
-            selectedPlayerChar.GetPlayerMove().Move(MouseWorld.GetPosition());
+
+            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+            if (selectedPlayerChar != null)
+            {
+                if (selectedPlayerChar.GetPlayerMove().IsValidPosition(mouseGridPosition))
+                {
+                    selectedPlayerChar.GetPlayerMove().Move(mouseGridPosition);
+                }
+            }
         }
 
     }

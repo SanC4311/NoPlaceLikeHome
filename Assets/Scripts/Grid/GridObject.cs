@@ -41,4 +41,9 @@ public class GridObject
         return playerCharList;
     }
 
+    public bool HasAnyPlayerChar()
+    {
+        return playerCharList.Count > 0;
+    }
+
 }

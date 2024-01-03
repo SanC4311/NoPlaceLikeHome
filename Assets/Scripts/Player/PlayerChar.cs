@@ -34,4 +34,9 @@ public class PlayerChar : MonoBehaviour
         return playerMove;
     }
 
+    public GridPosition GetGridPosition()
+    {
+        return gridPosition;
+    }
+
 }
