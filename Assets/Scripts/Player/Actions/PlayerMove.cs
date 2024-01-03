@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -38,6 +39,7 @@ public class PlayerMove : PlayerControl
             // Set IsWalking to false
             playerCharAnimator.SetBool("IsWalking", false);
             isActive = false;
+            onActionComplete();
         }
 
         // Adjust rotation to only consider the y-axis
@@ -49,8 +51,9 @@ public class PlayerMove : PlayerControl
         }
     }
 
-    public void Move(GridPosition gridPosition)
+    public void Move(GridPosition gridPosition, Action onActionComplete)
     {
+        this.onActionComplete = onActionComplete;
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         isActive = true;
     }

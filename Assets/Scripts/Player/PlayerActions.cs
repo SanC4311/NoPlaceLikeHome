@@ -12,6 +12,7 @@ public class PlayerActions : MonoBehaviour
 
     [SerializeField] private PlayerChar selectedPlayerChar;
     [SerializeField] private LayerMask playerCharLayerMask;
+    private bool preoccupied;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class PlayerActions : MonoBehaviour
 
     private void Update()
     {
+        if (preoccupied) return;
 
         if (GameInput.Instance.isLeftMouseButtonDownThisFrame())
         {
@@ -37,11 +39,22 @@ public class PlayerActions : MonoBehaviour
             {
                 if (selectedPlayerChar.GetPlayerMove().IsValidPosition(mouseGridPosition))
                 {
-                    selectedPlayerChar.GetPlayerMove().Move(mouseGridPosition);
+                    SetPreoccupied();
+                    selectedPlayerChar.GetPlayerMove().Move(mouseGridPosition, ClearPreoccupied);
                 }
             }
         }
 
+    }
+
+    private void SetPreoccupied()
+    {
+        preoccupied = true;
+    }
+
+    private void ClearPreoccupied()
+    {
+        preoccupied = false;
     }
 
     private bool TryHandlePlayerCharSelection()
