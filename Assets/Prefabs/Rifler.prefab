@@ -6712,9 +6712,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7949259727305802709}
-  - component: {fileID: 6227356126628179375}
   - component: {fileID: 6646774996656736733}
   - component: {fileID: 1650954990449321918}
+  - component: {fileID: 783240203991037401}
   m_Layer: 7
   m_Name: SelectedVisual
   m_TagString: Untagged
@@ -6737,19 +6737,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 357420028502129001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
---- !u!114 &6227356126628179375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7785428774120509812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2b3c5a5a0bd4995ae1f782c79224ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rifler: {fileID: 5437740349155384482}
 --- !u!212 &6646774996656736733
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6815,7 +6802,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateOffset: {x: 0, y: 0, z: 180}
-  mode: 3
+  mode: 1
+--- !u!114 &783240203991037401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785428774120509812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded60f5de5f8443f0b2738ab20e61f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rifler: {fileID: 5437740349155384482}
 --- !u!1001 &3234430235154042205
 PrefabInstance:
   m_ObjectHideFlags: 0
