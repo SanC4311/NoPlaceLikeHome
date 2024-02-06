@@ -6,10 +6,14 @@ public class PlayerChar : MonoBehaviour
 {
     private GridPosition gridPosition;
     private PlayerMove playerMove;
+    private PlayerTest playerTest;
+    private PlayerControl[] playerControls;
 
     private void Awake()
     {
         playerMove = GetComponent<PlayerMove>();
+        playerTest = GetComponent<PlayerTest>();
+        playerControls = GetComponents<PlayerControl>();
     }
 
     private void Start()
@@ -37,6 +41,11 @@ public class PlayerChar : MonoBehaviour
     public GridPosition GetGridPosition()
     {
         return gridPosition;
+    }
+
+    public PlayerControl[] GetPlayerControls()
+    {
+        return playerControls;
     }
 
 }
