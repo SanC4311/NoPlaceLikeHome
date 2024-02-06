@@ -12,6 +12,7 @@ public class PlayerActions : MonoBehaviour
 
     [SerializeField] private PlayerChar selectedPlayerChar;
     [SerializeField] private LayerMask playerCharLayerMask;
+    private PlayerControl selectedControl;
     private bool preoccupied;
 
     private void Awake()
@@ -26,25 +27,39 @@ public class PlayerActions : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        SetSelectedPlayerChar(selectedPlayerChar);
+    }
+
     private void Update()
     {
         if (preoccupied) return;
+        if (TryHandlePlayerCharSelection()) return;
+        HandleControl();
 
+    }
+
+    private void HandleControl()
+    {
         if (GameInput.Instance.isLeftMouseButtonDownThisFrame())
         {
-            if (TryHandlePlayerCharSelection()) return;
-
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-            if (selectedPlayerChar != null)
+
+            switch (selectedControl)
             {
-                if (selectedPlayerChar.GetPlayerMove().IsValidPosition(mouseGridPosition))
-                {
-                    SetPreoccupied();
-                    selectedPlayerChar.GetPlayerMove().Move(mouseGridPosition, ClearPreoccupied);
-                }
+                case PlayerMove playerMove:
+                    if (selectedPlayerChar != null)
+                    {
+                        if (selectedPlayerChar.GetPlayerMove().IsValidPosition(mouseGridPosition))
+                        {
+                            SetPreoccupied();
+                            selectedPlayerChar.GetPlayerMove().Move(mouseGridPosition, ClearPreoccupied);
+                        }
+                    }
+                    break;
             }
         }
-
     }
 
     private void SetPreoccupied()
@@ -59,23 +74,33 @@ public class PlayerActions : MonoBehaviour
 
     private bool TryHandlePlayerCharSelection()
     {
-        Ray ray = Camera.main.ScreenPointToRay(GameInput.Instance.GetMouseScreenPosition());
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, playerCharLayerMask))
+        if (GameInput.Instance.isLeftMouseButtonDownThisFrame())
         {
-            if (raycastHit.transform.TryGetComponent<PlayerChar>(out PlayerChar playerChar))
+            Ray ray = Camera.main.ScreenPointToRay(GameInput.Instance.GetMouseScreenPosition());
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, playerCharLayerMask))
             {
-                SetSelectedPlayerChar(playerChar);
-                return true;
+                if (raycastHit.transform.TryGetComponent<PlayerChar>(out PlayerChar playerChar))
+                {
+                    SetSelectedPlayerChar(playerChar);
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
 
+        return false;
     }
 
     private void SetSelectedPlayerChar(PlayerChar playerChar)
     {
         selectedPlayerChar = playerChar;
+        SetSelectedControl(selectedPlayerChar.GetPlayerMove());
         OnSelectedPlayerCharChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void SetSelectedControl(PlayerControl playerControl)
+    {
+        selectedControl = playerControl;
     }
 
     public PlayerChar GetSelectedPlayerChar()

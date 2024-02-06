@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class PlayerTest : PlayerControl
+public class PlayerRepair : PlayerControl
 {
 
 }

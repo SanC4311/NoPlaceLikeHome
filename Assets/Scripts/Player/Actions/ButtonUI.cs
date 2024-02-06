@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonUI : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class ButtonUI : MonoBehaviour
     [SerializeField] private GameObject shotgunButton;
     [SerializeField] private GameObject repairButton;
     [SerializeField] private GameObject ammoButton;
+    [SerializeField] private Button button;
 
     public void SetPlayerControl(PlayerControl playerControl)
     {
@@ -26,21 +28,26 @@ public class ButtonUI : MonoBehaviour
         {
             moveButton.gameObject.SetActive(true);
         }
-        // else if (playerControl is PlayerAssaultRifle)
-        // {
-        //     Instantiate(assaultRifleButton, button);
-        // }
-        // else if (playerControl is PlayerShotgun)
-        // {
-        //     Instantiate(shotgunButton, button);
-        // }
-        else if (playerControl is PlayerTest)
+        else if (playerControl is PlayerRepair)
         {
             repairButton.gameObject.SetActive(true);
         }
-        // else if (playerControl is PlayerAmmo)
-        // {
-        //     Instantiate(ammoButton, button);
-        // }
+        else if (playerControl is PlayerRifle)
+        {
+            assaultRifleButton.gameObject.SetActive(true);
+        }
+        else if (playerControl is PlayerShotgun)
+        {
+            shotgunButton.gameObject.SetActive(true);
+        }
+        else if (playerControl is PlayerAmmo)
+        {
+            ammoButton.gameObject.SetActive(true);
+        }
+
+        button.onClick.AddListener(() =>
+        {
+            PlayerActions.Instance.SetSelectedControl(currentControl);
+        });
     }
 }

@@ -457,6 +457,7 @@ MonoBehaviour:
   shotgunButton: {fileID: 382336786691794389}
   repairButton: {fileID: 6761678104110511496}
   ammoButton: {fileID: 345662138020238006}
+  button: {fileID: 3014904294062082898}
 --- !u!1 &6174893094886188568
 GameObject:
   m_ObjectHideFlags: 0

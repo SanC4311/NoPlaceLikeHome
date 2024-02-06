@@ -6,13 +6,13 @@ public class PlayerChar : MonoBehaviour
 {
     private GridPosition gridPosition;
     private PlayerMove playerMove;
-    private PlayerTest playerTest;
+    private PlayerRepair playerTest;
     private PlayerControl[] playerControls;
 
     private void Awake()
     {
         playerMove = GetComponent<PlayerMove>();
-        playerTest = GetComponent<PlayerTest>();
+        playerTest = GetComponent<PlayerRepair>();
         playerControls = GetComponents<PlayerControl>();
     }
 
