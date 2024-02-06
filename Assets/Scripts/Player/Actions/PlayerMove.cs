@@ -51,20 +51,14 @@ public class PlayerMove : PlayerControl
         }
     }
 
-    public void Move(GridPosition gridPosition, Action onActionComplete)
+    public override void DoControl(GridPosition gridPosition, Action onActionComplete)
     {
         this.onActionComplete = onActionComplete;
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         isActive = true;
     }
 
-    public bool IsValidPosition(GridPosition gridPosition)
-    {
-        List<GridPosition> validPositionList = GetValidPositionList();
-        return validPositionList.Contains(gridPosition);
-    }
-
-    public List<GridPosition> GetValidPositionList()
+    public override List<GridPosition> GetValidPositionList()
     {
         List<GridPosition> validPositionList = new List<GridPosition>();
 

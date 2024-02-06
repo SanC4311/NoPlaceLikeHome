@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class PlayerRifle : PlayerControl
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void DoControl(GridPosition gridPosition, System.Action onActionComplete)
     {
-
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override List<GridPosition> GetValidPositionList()
     {
+        GridPosition playerCharGridPosition = playerChar.GetGridPosition();
 
+        return new List<GridPosition>
+        {
+            playerCharGridPosition
+        };
     }
 }

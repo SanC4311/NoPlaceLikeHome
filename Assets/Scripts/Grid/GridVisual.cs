@@ -62,7 +62,7 @@ public class GridVisual : MonoBehaviour
     private void UpdateGridVisual()
     {
         HideAllGridVisuals();
-        PlayerChar selectedPlayerChar = PlayerActions.Instance.GetSelectedPlayerChar();
-        ShowGridVisuals(selectedPlayerChar.GetPlayerMove().GetValidPositionList());
+        PlayerControl playerControl = PlayerActions.Instance.GetSelectedControl();
+        ShowGridVisuals(playerControl.GetValidPositionList());
     }
 }

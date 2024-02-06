@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerActions : MonoBehaviour
 {
@@ -35,6 +37,7 @@ public class PlayerActions : MonoBehaviour
     private void Update()
     {
         if (preoccupied) return;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         if (TryHandlePlayerCharSelection()) return;
         HandleControl();
 
@@ -46,18 +49,10 @@ public class PlayerActions : MonoBehaviour
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
-            switch (selectedControl)
+            if (selectedControl.IsValidPosition(mouseGridPosition))
             {
-                case PlayerMove playerMove:
-                    if (selectedPlayerChar != null)
-                    {
-                        if (selectedPlayerChar.GetPlayerMove().IsValidPosition(mouseGridPosition))
-                        {
-                            SetPreoccupied();
-                            selectedPlayerChar.GetPlayerMove().Move(mouseGridPosition, ClearPreoccupied);
-                        }
-                    }
-                    break;
+                SetPreoccupied();
+                selectedControl.DoControl(mouseGridPosition, ClearPreoccupied);
             }
         }
     }
@@ -81,6 +76,10 @@ public class PlayerActions : MonoBehaviour
             {
                 if (raycastHit.transform.TryGetComponent<PlayerChar>(out PlayerChar playerChar))
                 {
+                    if (playerChar == selectedPlayerChar)
+                    {
+                        return false;
+                    }
                     SetSelectedPlayerChar(playerChar);
                     return true;
                 }
@@ -106,6 +105,11 @@ public class PlayerActions : MonoBehaviour
     public PlayerChar GetSelectedPlayerChar()
     {
         return selectedPlayerChar;
+    }
+
+    public PlayerControl GetSelectedControl()
+    {
+        return selectedControl;
     }
 
 }

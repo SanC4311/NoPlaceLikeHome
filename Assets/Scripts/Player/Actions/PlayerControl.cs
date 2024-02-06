@@ -14,4 +14,13 @@ public abstract class PlayerControl : MonoBehaviour
         playerChar = GetComponent<PlayerChar>();
     }
 
+    public abstract void DoControl(GridPosition gridPosition, Action onActionComplete);
+
+    public virtual bool IsValidPosition(GridPosition gridPosition)
+    {
+        List<GridPosition> validPositionList = GetValidPositionList();
+        return validPositionList.Contains(gridPosition);
+    }
+
+    public abstract List<GridPosition> GetValidPositionList();
 }
