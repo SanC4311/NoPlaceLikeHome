@@ -10,7 +10,10 @@ public class ButtonUI : MonoBehaviour
     [SerializeField] private GameObject shotgunButton;
     [SerializeField] private GameObject repairButton;
     [SerializeField] private GameObject ammoButton;
+    [SerializeField] private GameObject selectedVisual;
     [SerializeField] private Button button;
+
+    private PlayerControl currentControl;
 
     public void SetPlayerControl(PlayerControl playerControl)
     {
@@ -21,26 +24,26 @@ public class ButtonUI : MonoBehaviour
         repairButton.gameObject.SetActive(false);
         ammoButton.gameObject.SetActive(false);
 
-        PlayerControl currentControl = playerControl;
+        this.currentControl = playerControl;
         Debug.Log(currentControl);
 
-        if (currentControl is PlayerMove)
+        if (this.currentControl is PlayerMove)
         {
             moveButton.gameObject.SetActive(true);
         }
-        else if (playerControl is PlayerRepair)
+        else if (this.currentControl is PlayerRepair)
         {
             repairButton.gameObject.SetActive(true);
         }
-        else if (playerControl is PlayerRifle)
+        else if (this.currentControl is PlayerRifle)
         {
             assaultRifleButton.gameObject.SetActive(true);
         }
-        else if (playerControl is PlayerShotgun)
+        else if (this.currentControl is PlayerShotgun)
         {
             shotgunButton.gameObject.SetActive(true);
         }
-        else if (playerControl is PlayerAmmo)
+        else if (this.currentControl is PlayerAmmo)
         {
             ammoButton.gameObject.SetActive(true);
         }
@@ -49,5 +52,11 @@ public class ButtonUI : MonoBehaviour
         {
             PlayerActions.Instance.SetSelectedControl(currentControl);
         });
+    }
+
+    public void UpdateVisual()
+    {
+        PlayerControl selectedControl = PlayerActions.Instance.GetSelectedControl();
+        selectedVisual.SetActive(selectedControl == currentControl);
     }
 }

@@ -11,6 +11,7 @@ public class PlayerActions : MonoBehaviour
     public static PlayerActions Instance { get; private set; }
 
     public event EventHandler OnSelectedPlayerCharChanged;
+    public event EventHandler OnSelectedControlChanged;
 
     [SerializeField] private PlayerChar selectedPlayerChar;
     [SerializeField] private LayerMask playerCharLayerMask;
@@ -100,6 +101,7 @@ public class PlayerActions : MonoBehaviour
     public void SetSelectedControl(PlayerControl playerControl)
     {
         selectedControl = playerControl;
+        OnSelectedControlChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public PlayerChar GetSelectedPlayerChar()
