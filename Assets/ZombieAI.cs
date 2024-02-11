@@ -9,7 +9,7 @@ public class ZombieAI : MonoBehaviour
     public Transform targetPosition;
     //[SerializeField] private NavMeshAgent agent;
     public float moveSpeed = 3.2f;
-    public float stoppingDistance = 1f;
+    public float stoppingDistance;
     public float spawnInterval = 5f;
     private float timer;
 
@@ -23,10 +23,11 @@ public class ZombieAI : MonoBehaviour
     private float lastAttackTime = 0f; // Time since last attack
 
     public DefenseHealth defenseHealth;
-    public void Initialize(Transform target, DefenseHealth health)
+    public void Initialize(Transform target, DefenseHealth health, float StoppingDistance)
     {
         targetPosition = target;
         defenseHealth = health;
+        stoppingDistance = StoppingDistance;
     }
     void Update()
     {
