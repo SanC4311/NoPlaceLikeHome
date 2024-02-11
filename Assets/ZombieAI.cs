@@ -48,6 +48,7 @@ public class ZombieAI : MonoBehaviour
             zombieAnimator.SetBool("Attack", true);
             if (Time.time - lastAttackTime >= attackRate)
             {
+
                 AttackTarget();
                 lastAttackTime = Time.time;
             }
@@ -88,7 +89,6 @@ public class ZombieAI : MonoBehaviour
         if (targetPosition != null)
         {
             DefenseHealth targetHealth = defenseHealth;
-            Debug.Log($"Attacking with DefenseHealth assigned: {defenseHealth != null}");
             if (targetHealth != null)
             {
                 targetHealth.TakeDamage(attackDamage);
