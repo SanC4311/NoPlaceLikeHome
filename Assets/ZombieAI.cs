@@ -23,7 +23,11 @@ public class ZombieAI : MonoBehaviour
     private float lastAttackTime = 0f; // Time since last attack
 
     public DefenseHealth defenseHealth;
-
+    public void Initialize(Transform target, DefenseHealth health)
+    {
+        targetPosition = target;
+        defenseHealth = health;
+    }
     void Update()
     {
         timer += Time.deltaTime;
@@ -92,8 +96,8 @@ public class ZombieAI : MonoBehaviour
             if (targetHealth != null)
             {
                 targetHealth.TakeDamage(attackDamage);
-                Debug.Log("Zombie attacked the target for " + attackDamage + " damage!");
-                Debug.Log("Target health: " + targetHealth.health);
+                // Debug.Log("Zombie attacked the target for " + attackDamage + " damage!");
+                // Debug.Log("Target health: " + targetHealth.health);
             }
             if (targetHealth.targetDestroyed)
             {
