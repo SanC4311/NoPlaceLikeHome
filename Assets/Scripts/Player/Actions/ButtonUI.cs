@@ -35,11 +35,11 @@ public class ButtonUI : MonoBehaviour
         {
             repairButton.gameObject.SetActive(true);
         }
-        else if (this.currentControl is PlayerRifle)
+        else if (this.currentControl is PlayerDefendRifle)
         {
             assaultRifleButton.gameObject.SetActive(true);
         }
-        else if (this.currentControl is PlayerShotgun)
+        else if (this.currentControl is PlayerDefendShotgun)
         {
             shotgunButton.gameObject.SetActive(true);
         }

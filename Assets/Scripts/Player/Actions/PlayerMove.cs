@@ -30,7 +30,6 @@ public class PlayerMove : PlayerControl
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
             // Set IsWalking to true
             playerCharAnimator.SetBool("IsWalking", true);
         }

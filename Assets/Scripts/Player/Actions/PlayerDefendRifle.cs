@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerRifle : PlayerControl
+public class PlayerDefendRifle : PlayerControl
 {
     public override void DoControl(GridPosition gridPosition, System.Action onActionComplete)
     {

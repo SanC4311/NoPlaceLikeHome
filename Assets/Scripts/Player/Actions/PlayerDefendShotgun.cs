@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShotgun : PlayerControl
+public class PlayerDefendShotgun : PlayerControl
 {
     public override void DoControl(GridPosition gridPosition, System.Action onActionComplete)
     {
