@@ -10,6 +10,16 @@ public class PlayerChar : MonoBehaviour
     private PlayerControl[] playerControls;
 
     public bool attackMode = false;
+    private float rotateSpeed = 6f;
+    [SerializeField] private LayerMask zombieLayer; // Assign this in the inspector
+    public float shootingRange = 10f;
+    public float shootingAngle = 90f;
+    private bool playerTurned = false;
+
+    private bool isShootingInProgress = false;
+
+
+    [SerializeField] private Animator PlayerCharAnimator;
 
     private void Awake()
     {
@@ -33,10 +43,7 @@ public class PlayerChar : MonoBehaviour
             LevelGrid.Instance.PlayerCharMovedGridPosition(this, gridPosition, newGridPosition);
             gridPosition = newGridPosition;
         }
-
-        Debug.Log(attackMode);
-        Debug.Log("Current position: " + gridPosition.x + ", " + gridPosition.z);
-        AttackMode();
+        EnableAttackMode();
     }
 
     public PlayerMove GetPlayerMove()
@@ -54,18 +61,108 @@ public class PlayerChar : MonoBehaviour
         return playerControls;
     }
 
-    public void AttackMode()
+    public void EnableAttackMode()
     {
+        Debug.Log("Player Turned: " + playerTurned);
         float tolerance = 0.5f;
         if ((gridPosition.x >= 1 - tolerance && gridPosition.x <= 1 + tolerance) &&
-            (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance))
+            (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance) && !isShootingInProgress)
         {
             attackMode = true;
+            // Make the player face the zombies - rotate y to 0
+            if (!playerTurned)
+            {
+                Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+            }
+            AimAndShoot();
         }
         else
         {
-            attackMode = false; // Optionally, disable attack mode if not within the target range
+            attackMode = false;
+            playerTurned = false;
         }
+    }
+
+    void AimAndShoot()
+    {
+        if (!isShootingInProgress)
+        {
+            Debug.Log("Aiming started.");
+            PlayerCharAnimator.SetBool("isAiming", true);
+            isShootingInProgress = true; // Ensure we don't start again until done
+
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, zombieLayer);
+            List<Transform> zombiesInSight = new List<Transform>();
+
+            foreach (var hitCollider in hitColliders)
+            {
+                if (hitCollider != null)
+                {
+                    Vector3 directionToZombie = hitCollider.transform.position - transform.position;
+                    if (Vector3.Angle(transform.forward, directionToZombie) <= shootingAngle / 2)
+                    {
+                        zombiesInSight.Add(hitCollider.transform);
+                        Debug.Log("Zombie spotted.");
+                    }
+                }
+            }
+
+            if (zombiesInSight.Count > 0)
+            {
+                Debug.Log("Preparing to shoot zombies.");
+                StartCoroutine(ShootZombies(zombiesInSight));
+            }
+            else
+            {
+                Debug.Log("No zombies in sight.");
+                PlayerCharAnimator.SetBool("isAiming", false);
+            }
+        }
+    }
+
+
+    IEnumerator ShootZombies(List<Transform> zombies)
+    {
+        yield return new WaitForSeconds(2); // Wait for aim animation to complete
+        playerTurned = true;
+
+        foreach (Transform zombie in zombies)
+        {
+            if (zombie != null) // Check if the zombie still exists
+            {
+                Debug.Log($"Targeting zombie at {zombie.position}.");
+
+                // Face the zombie
+                Vector3 directionToZombie = zombie.position - transform.position;
+                Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToZombie.x, 0, directionToZombie.z));
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 1f); // Immediate rotation for simplicity
+
+                // Simulate aiming at the zombie
+                yield return new WaitForSeconds(1f);
+                Debug.Log("Aimed at zombie, preparing to shoot.");
+
+                // Shoot the zombie
+                PlayerCharAnimator.SetBool("isShooting", true);
+                yield return new WaitForSeconds(0.1f); // Ensure animation starts
+                yield return new WaitForSeconds(2); // Duration for shooting animation
+
+                // Destroy the zombie
+                if (zombie != null)
+                {
+                    Debug.Log("Zombie shot and destroyed.");
+                    Destroy(zombie.gameObject);
+                }
+
+                PlayerCharAnimator.SetBool("isShooting", false);
+                yield return new WaitForSeconds(1); // Delay before targeting the next zombie
+            }
+        }
+
+        // After finishing shooting all zombies:
+        isShootingInProgress = false;
+        PlayerCharAnimator.SetBool("isAiming", false);
+        Debug.Log("All targeted zombies have been shot.");
     }
 
 }
