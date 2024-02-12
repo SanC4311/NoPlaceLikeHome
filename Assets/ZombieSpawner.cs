@@ -12,7 +12,8 @@ public class ZombieSpawner : MonoBehaviour
 
     void Start()
     {
-        timer = spawnInterval + Random.Range(-2f, 20f); // Initialize the timer
+        //timer = spawnInterval + Random.Range(-2f, 20f); // Initialize the timer
+        timer = spawnInterval + Random.Range(-2f, 2f); // Initialize the timer
     }
 
     void Update()
@@ -22,7 +23,7 @@ public class ZombieSpawner : MonoBehaviour
         {
             SpawnZombie();
             timer = spawnInterval + Random.Range(-2f, 20f); // Reset timer with a random interval around spawnInterval
-            Debug.Log($"Next zombie spawning in: {timer:F2} seconds"); // Log the next spawn time
+            //Debug.Log($"Next zombie spawning in: {timer:F2} seconds"); // Log the next spawn time
         }
     }
 

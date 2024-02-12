@@ -68,7 +68,7 @@ public class ZombieAI : MonoBehaviour
             Vector3 targetPositionFlat = new Vector3(targetPosition.position.x, transform.position.y, targetPosition.position.z);
 
             bool canMove = !Physics.Raycast(transform.position, transform.forward, checkDistance, zombieLayer);
-            Debug.Log(canMove);
+            //Debug.Log(canMove);
 
             if (Vector3.Distance(transform.position, targetPositionFlat) > stoppingDistance && canMove)
             {

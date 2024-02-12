@@ -18,6 +18,9 @@ public class PlayerChar : MonoBehaviour
 
     private bool isShootingInProgress = false;
 
+    [SerializeField] private GameObject bulletProjectilePrefab;
+    [SerializeField] private Transform shootPoint;
+
 
     [SerializeField] private Animator PlayerCharAnimator;
 
@@ -36,7 +39,6 @@ public class PlayerChar : MonoBehaviour
 
     private void Update()
     {
-
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if (newGridPosition != gridPosition)
         {
@@ -63,38 +65,52 @@ public class PlayerChar : MonoBehaviour
 
     public void EnableAttackMode()
     {
-        Debug.Log("Player Turned: " + playerTurned);
         float tolerance = 0.5f;
         if ((gridPosition.x >= 1 - tolerance && gridPosition.x <= 1 + tolerance) &&
-            (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance) && !isShootingInProgress)
+            (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance) ||
+            ((gridPosition.x >= 3 - tolerance && gridPosition.x <= 3 + tolerance) &&
+            (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance)))
         {
-            attackMode = true;
-            // Make the player face the zombies - rotate y to 0
             if (!playerTurned)
             {
                 Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
             }
-            AimAndShoot();
+            if (!attackMode)
+            {
+                Debug.Log("Attack mode enabled.");
+                attackMode = true;
+                if (!isShootingInProgress)
+                {
+                    StartCoroutine(AimAndShoot());
+                }
+            }
         }
         else
         {
-            attackMode = false;
-            playerTurned = false;
+            if (attackMode)
+            {
+                Debug.Log("Attack mode disabled.");
+                attackMode = false;
+                // Stop the AimAndShoot coroutine if it's running
+                StopCoroutine(AimAndShoot());
+                isShootingInProgress = false;
+                PlayerCharAnimator.SetBool("isAiming", false);
+                playerTurned = false;
+            }
         }
     }
 
-    void AimAndShoot()
+    IEnumerator AimAndShoot()
     {
-        if (!isShootingInProgress)
-        {
-            Debug.Log("Aiming started.");
-            PlayerCharAnimator.SetBool("isAiming", true);
-            isShootingInProgress = true; // Ensure we don't start again until done
+        isShootingInProgress = true;
 
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, zombieLayer);
+        while (attackMode)
+        {
+            PlayerCharAnimator.SetBool("isAiming", true);
             List<Transform> zombiesInSight = new List<Transform>();
 
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, zombieLayer);
             foreach (var hitCollider in hitColliders)
             {
                 if (hitCollider != null)
@@ -111,16 +127,19 @@ public class PlayerChar : MonoBehaviour
             if (zombiesInSight.Count > 0)
             {
                 Debug.Log("Preparing to shoot zombies.");
-                StartCoroutine(ShootZombies(zombiesInSight));
+                yield return StartCoroutine(ShootZombies(zombiesInSight));
             }
             else
             {
                 Debug.Log("No zombies in sight.");
                 PlayerCharAnimator.SetBool("isAiming", false);
+                // Wait a moment before checking again
+                yield return new WaitForSeconds(1f);
             }
         }
-    }
 
+        isShootingInProgress = false;
+    }
 
     IEnumerator ShootZombies(List<Transform> zombies)
     {
@@ -145,6 +164,13 @@ public class PlayerChar : MonoBehaviour
                 // Shoot the zombie
                 PlayerCharAnimator.SetBool("isShooting", true);
                 yield return new WaitForSeconds(0.1f); // Ensure animation starts
+                Debug.Log(shootPoint.position);
+
+                GameObject trailEffect = Instantiate(bulletProjectilePrefab, shootPoint.position, shootPoint.rotation) as GameObject;
+                trailEffect.transform.SetParent(shootPoint.transform);
+
+
+
                 yield return new WaitForSeconds(2); // Duration for shooting animation
 
                 // Destroy the zombie
@@ -163,6 +189,7 @@ public class PlayerChar : MonoBehaviour
         isShootingInProgress = false;
         PlayerCharAnimator.SetBool("isAiming", false);
         Debug.Log("All targeted zombies have been shot.");
+        playerTurned = false;
     }
 
 }

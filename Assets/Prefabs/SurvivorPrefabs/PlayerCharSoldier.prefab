@@ -1404,6 +1404,37 @@ Transform:
   - {fileID: 7005734380483992980}
   m_Father: {fileID: 5158624284367085635}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1289751412431028825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1535320248211637207}
+  m_Layer: 7
+  m_Name: ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1535320248211637207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289751412431028825}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.004, y: 0.102, z: 0.727}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3969497014795792997}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1415820897635186860
 GameObject:
   m_ObjectHideFlags: 0
@@ -4028,6 +4059,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ccb22b10a92743b3bbc21f0c305fd66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackMode: 0
+  zombieLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  shootingRange: 10
+  shootingAngle: 90
+  bulletProjectilePrefab: {fileID: 1514583733132967833, guid: 0a9772d003ac843cb96c4a4b8aeb01e5,
+    type: 3}
+  shootPoint: {fileID: 1535320248211637207}
+  PlayerCharAnimator: {fileID: 6608938496113675912}
 --- !u!114 &6027123714818304036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6845,6 +6886,7 @@ Transform:
   - {fileID: 1814007885142015968}
   - {fileID: 5837672555737950187}
   - {fileID: 364276083106356440}
+  - {fileID: 1535320248211637207}
   m_Father: {fileID: 4534313115884030656}
   m_LocalEulerAnglesHint: {x: 2.841, y: 95.413, z: -99.378}
 --- !u!33 &3029304060800796718
