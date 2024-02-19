@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerChar : MonoBehaviour
@@ -13,13 +14,15 @@ public class PlayerChar : MonoBehaviour
     private float rotateSpeed = 6f;
     [SerializeField] private LayerMask zombieLayer; // Assign this in the inspector
     public float shootingRange = 10f;
-    public float shootingAngle = 90f;
+    public float shootingAngle = 45f;
     private bool playerTurned = false;
-
     private bool isShootingInProgress = false;
 
     [SerializeField] private GameObject bulletProjectilePrefab;
     [SerializeField] private Transform shootPoint;
+
+    [SerializeField] private Transform playerRoot;
+    [SerializeField] private Transform originalParent;
 
 
     [SerializeField] private Animator PlayerCharAnimator;
@@ -164,12 +167,19 @@ public class PlayerChar : MonoBehaviour
                 // Shoot the zombie
                 PlayerCharAnimator.SetBool("isShooting", true);
                 yield return new WaitForSeconds(0.1f); // Ensure animation starts
-                Debug.Log(shootPoint.position);
 
-                GameObject trailEffect = Instantiate(bulletProjectilePrefab, shootPoint.position, shootPoint.rotation) as GameObject;
-                trailEffect.transform.SetParent(shootPoint.transform);
+                shootPoint.SetParent(playerRoot, false);
 
+                Debug.Log("Local: " + shootPoint.localPosition);
+                Debug.Log("Global: " + shootPoint.position);
 
+                Vector3 bulletPosition = new Vector3((float)(shootPoint.position.x + 0.117), (float)(shootPoint.position.y + 1.315 - 0.082), (float)(shootPoint.position.z + 0.023));
+                GameObject trailEffect = Instantiate(bulletProjectilePrefab, bulletPosition, quaternion.identity);
+                BulletProjectile bulletProjectile = trailEffect.GetComponent<BulletProjectile>();
+                Vector3 headshotPosition = new Vector3(zombie.position.x, (float)(zombie.position.y + 1.315), zombie.position.z);
+                bulletProjectile.Setup(headshotPosition);
+
+                shootPoint.SetParent(originalParent, false);
 
                 yield return new WaitForSeconds(2); // Duration for shooting animation
 

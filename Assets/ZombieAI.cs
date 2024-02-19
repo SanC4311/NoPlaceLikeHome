@@ -17,7 +17,6 @@ public class ZombieAI : MonoBehaviour
     public float checkDistance = 0.2f; // Distance to check for other zombies in front
 
     private bool reachedTarget = false;
-
     public float attackRate = 2f; // How often the zombie attacks in seconds
     public float attackDamage = 10f; // Damage per attack
     private float lastAttackTime = 0f; // Time since last attack

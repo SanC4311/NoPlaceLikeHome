@@ -12,8 +12,8 @@ public class ZombieSpawner : MonoBehaviour
 
     void Start()
     {
-        //timer = spawnInterval + Random.Range(-2f, 20f); // Initialize the timer
-        timer = spawnInterval + Random.Range(-2f, 2f); // Initialize the timer
+        timer = spawnInterval + Random.Range(-2f, 20f); // Initialize the timer
+        //timer = spawnInterval + Random.Range(-2f, 2f); // Initialize the timer
     }
 
     void Update()
