@@ -176,9 +176,11 @@ public class PlayerChar : MonoBehaviour
                 Vector3 bulletPosition = new Vector3((float)(shootPoint.position.x + 0.117), (float)(shootPoint.position.y + 1.315 - 0.082), (float)(shootPoint.position.z + 0.023));
                 GameObject trailEffect = Instantiate(bulletProjectilePrefab, bulletPosition, quaternion.identity);
                 BulletProjectile bulletProjectile = trailEffect.GetComponent<BulletProjectile>();
-                Vector3 headshotPosition = new Vector3(zombie.position.x, (float)(zombie.position.y + 1.315), zombie.position.z);
-                bulletProjectile.Setup(headshotPosition);
-
+                if (zombie != null)
+                {
+                    Vector3 headshotPosition = new Vector3(zombie.position.x, (float)(zombie.position.y + 1.315), zombie.position.z);
+                    bulletProjectile.Setup(headshotPosition);
+                }
                 shootPoint.SetParent(originalParent, false);
 
                 yield return new WaitForSeconds(2); // Duration for shooting animation
