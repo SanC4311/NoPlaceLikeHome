@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerChar : MonoBehaviour
@@ -183,13 +184,13 @@ public class PlayerChar : MonoBehaviour
                 }
                 shootPoint.SetParent(originalParent, false);
 
-                yield return new WaitForSeconds(2); // Duration for shooting animation
+                //yield return new WaitForSeconds(2); // Duration for shooting animation
 
                 // Destroy the zombie
                 if (zombie != null)
                 {
-                    Debug.Log("Zombie shot and destroyed.");
-                    Destroy(zombie.gameObject);
+                    Debug.Log("Zombie shot and destroying now.");
+                    zombie.GetComponent<ZombieAI>().isDestroyed = true;
                 }
 
                 PlayerCharAnimator.SetBool("isShooting", false);

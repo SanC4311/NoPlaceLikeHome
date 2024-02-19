@@ -21,6 +21,8 @@ public class ZombieAI : MonoBehaviour
     public float attackDamage = 10f; // Damage per attack
     private float lastAttackTime = 0f; // Time since last attack
 
+    public bool isDestroyed = false;
+
     public DefenseHealth defenseHealth;
     public void Initialize(Transform target, DefenseHealth health, float StoppingDistance)
     {
@@ -34,6 +36,17 @@ public class ZombieAI : MonoBehaviour
         if (timer > spawnInterval)
         {
             SpawnZombie();
+        }
+
+        Debug.Log("isDestroyed: " + isDestroyed);
+
+        if (isDestroyed)
+        {
+            // The target has been destroyed
+            Debug.Log("Zombie destroyed - Script!");
+            // Trigger a "destroyed" animation
+            zombieAnimator.SetBool("Destroyed", true);
+            Destroy(gameObject, 2f);
         }
     }
 
@@ -69,7 +82,7 @@ public class ZombieAI : MonoBehaviour
             bool canMove = !Physics.Raycast(transform.position, transform.forward, checkDistance, zombieLayer);
             //Debug.Log(canMove);
 
-            if (Vector3.Distance(transform.position, targetPositionFlat) > stoppingDistance && canMove)
+            if (Vector3.Distance(transform.position, targetPositionFlat) > stoppingDistance && canMove && !isDestroyed)
             {
                 transform.LookAt(targetPositionFlat);
                 transform.position = Vector3.MoveTowards(transform.position, targetPositionFlat, moveSpeed * Time.deltaTime);

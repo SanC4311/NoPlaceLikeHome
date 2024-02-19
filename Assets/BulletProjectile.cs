@@ -6,6 +6,7 @@ public class BulletProjectile : MonoBehaviour
 {
 
     public Vector3 targetPosition;
+    public ZombieAI zombieAI;
     public void Setup(Vector3 targetPosition)
     {
         this.targetPosition = targetPosition;
@@ -17,7 +18,7 @@ public class BulletProjectile : MonoBehaviour
 
         float distanceBeforeMoving = Vector3.Distance(transform.position, targetPosition);
 
-        float moveSpeed = 10f;
+        float moveSpeed = 80f;
         transform.position += moveDir * moveSpeed * Time.deltaTime;
 
         float distanceAfterMoving = Vector3.Distance(transform.position, targetPosition);
