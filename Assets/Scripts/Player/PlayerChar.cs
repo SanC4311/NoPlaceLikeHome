@@ -20,13 +20,13 @@ public class PlayerChar : MonoBehaviour
     private bool isShootingInProgress = false;
 
     [SerializeField] private GameObject bulletProjectilePrefab;
+    [SerializeField] private GameObject bulletFX;
     [SerializeField] private Transform shootPoint;
 
     [SerializeField] private Transform playerRoot;
     [SerializeField] private Transform originalParent;
-
-
     [SerializeField] private Animator PlayerCharAnimator;
+    public float bulletFXTime = 0.1f;
 
     private void Awake()
     {
@@ -176,6 +176,16 @@ public class PlayerChar : MonoBehaviour
 
                 Vector3 bulletPosition = new Vector3((float)(shootPoint.position.x + 0.117), (float)(shootPoint.position.y + 1.315 - 0.082), (float)(shootPoint.position.z + 0.023));
                 GameObject trailEffect = Instantiate(bulletProjectilePrefab, bulletPosition, quaternion.identity);
+                Debug.Log("Bullet shot.");
+                GameObject shootingEffect = Instantiate(bulletFX, bulletPosition, quaternion.identity);
+
+                ParticleSystem ps = shootingEffect.GetComponent<ParticleSystem>();
+                if (ps != null)
+                {
+                    ps.Play();
+                    Debug.Log("Bullet FX Started.");
+                }
+                Debug.Log("Bullet FX Done.");
                 BulletProjectile bulletProjectile = trailEffect.GetComponent<BulletProjectile>();
                 if (zombie != null)
                 {
@@ -191,6 +201,9 @@ public class PlayerChar : MonoBehaviour
                 {
                     Debug.Log("Zombie shot and destroying now.");
                     zombie.GetComponent<ZombieAI>().isDestroyed = true;
+                    yield return new WaitForSeconds(bulletFXTime);
+                    Debug.Log("Bullet FX Done. Destroying effect.");
+                    Destroy(shootingEffect);
                 }
 
                 PlayerCharAnimator.SetBool("isShooting", false);
