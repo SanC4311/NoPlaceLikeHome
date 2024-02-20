@@ -21,6 +21,7 @@ public class PlayerChar : MonoBehaviour
 
     [SerializeField] private GameObject bulletProjectilePrefab;
     [SerializeField] private GameObject bulletFX;
+    [SerializeField] private GameObject shellsFX;
     [SerializeField] private Transform shootPoint;
 
     [SerializeField] private Transform playerRoot;
@@ -178,6 +179,8 @@ public class PlayerChar : MonoBehaviour
                 GameObject trailEffect = Instantiate(bulletProjectilePrefab, bulletPosition, quaternion.identity);
                 Debug.Log("Bullet shot.");
                 GameObject shootingEffect = Instantiate(bulletFX, bulletPosition, quaternion.identity);
+                Quaternion shellsRotation = Quaternion.Euler(0, 0, -90);
+                GameObject shellsEffect = Instantiate(shellsFX, bulletPosition, shellsRotation);
 
                 ParticleSystem ps = shootingEffect.GetComponent<ParticleSystem>();
                 if (ps != null)
@@ -186,6 +189,16 @@ public class PlayerChar : MonoBehaviour
                     Debug.Log("Bullet FX Started.");
                 }
                 Debug.Log("Bullet FX Done.");
+
+                ParticleSystem psShells = shellsEffect.GetComponent<ParticleSystem>();
+                if (psShells != null)
+                {
+                    psShells.Play();
+                    Debug.Log("Shells FX Started.");
+                }
+
+
+
                 BulletProjectile bulletProjectile = trailEffect.GetComponent<BulletProjectile>();
                 if (zombie != null)
                 {
@@ -204,6 +217,8 @@ public class PlayerChar : MonoBehaviour
                     yield return new WaitForSeconds(bulletFXTime);
                     Debug.Log("Bullet FX Done. Destroying effect.");
                     Destroy(shootingEffect);
+                    yield return new WaitForSeconds(2);
+                    Destroy(shellsEffect);
                 }
 
                 PlayerCharAnimator.SetBool("isShooting", false);
