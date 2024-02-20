@@ -22,6 +22,7 @@ public class PlayerChar : MonoBehaviour
     [SerializeField] private GameObject bulletProjectilePrefab;
     [SerializeField] private GameObject bulletFX;
     [SerializeField] private GameObject shellsFX;
+    [SerializeField] private GameObject bloodFX;
     [SerializeField] private Transform shootPoint;
 
     [SerializeField] private Transform playerRoot;
@@ -200,15 +201,23 @@ public class PlayerChar : MonoBehaviour
                     Debug.Log("Shells FX Started.");
                 }
 
-
+                GameObject bloodEffect = new GameObject();
 
                 BulletProjectile bulletProjectile = trailEffect.GetComponent<BulletProjectile>();
                 if (zombie != null)
                 {
-                    Vector3 headshotPosition = new Vector3(zombie.position.x, (float)(zombie.position.y + 1.315), zombie.position.z);
-                    bulletProjectile.Setup(headshotPosition);
+                    Vector3 shotPosition = new Vector3(zombie.position.x, (float)(zombie.position.y + 1.315), zombie.position.z);
+                    bulletProjectile.Setup(shotPosition);
+                    bloodEffect = Instantiate(bloodFX, shotPosition, quaternion.identity);
                 }
                 shootPoint.SetParent(originalParent, false);
+
+                ParticleSystem psBlood = bloodEffect.GetComponent<ParticleSystem>();
+                if (psBlood != null)
+                {
+                    psBlood.Play();
+                    Debug.Log("Blood FX Started.");
+                }
 
                 //yield return new WaitForSeconds(2); // Duration for shooting animation
 
@@ -223,6 +232,8 @@ public class PlayerChar : MonoBehaviour
                 Destroy(shootingEffect);
                 yield return new WaitForSeconds(shellsFXTime);
                 Destroy(shellsEffect);
+                yield return new WaitForSeconds(1);
+                Destroy(bloodEffect);
 
                 PlayerCharAnimator.SetBool("isShooting", false);
                 yield return new WaitForSeconds(1); // Delay before targeting the next zombie
