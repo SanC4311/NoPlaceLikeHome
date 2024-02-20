@@ -227,6 +227,7 @@ public class PlayerChar : MonoBehaviour
                     Debug.Log("Zombie shot and destroying now.");
                     zombie.GetComponent<ZombieAI>().isDestroyed = true;
                 }
+                ScreenShake.Instance.ShakeCamera(2.5f);
                 yield return new WaitForSeconds(bulletFXTime);
                 Debug.Log("Bullet FX Done. Destroying effect.");
                 Destroy(shootingEffect);

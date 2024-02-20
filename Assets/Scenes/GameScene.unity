@@ -1084,7 +1084,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30517742, y: -0.000000016385558, z: 0.0000000052509983, w: 0.95229554}
+  m_LocalRotation: {x: 0.30517742, y: 0.000000016385558, z: -0.0000000052509983, w: 0.95229554}
   m_LocalPosition: {x: 3.85, y: 5, z: -6.64}
   m_LocalScale: {x: 1, y: 2.3, z: 1.3}
   m_ConstrainProportionsScale: 0
@@ -1744,7 +1744,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 521077923}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30517742, y: -0.000000016385558, z: 0.0000000052509983, w: 0.95229554}
+  m_LocalRotation: {x: 0.30517742, y: 0.000000016385558, z: -0.0000000052509983, w: 0.95229554}
   m_LocalPosition: {x: 3.85, y: 5, z: -6.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10020,11 +10020,13 @@ MonoBehaviour:
     type: 3}
   bulletFX: {fileID: 1320275964731592, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
   shellsFX: {fileID: 1647599476371734, guid: d1d2a96a9fbbc6d4ebc40a558b89e570, type: 3}
+  bloodFX: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
   shootPoint: {fileID: 820604525269930833}
   playerRoot: {fileID: 4139121585957944186}
   originalParent: {fileID: 2971160066678596323}
   PlayerCharAnimator: {fileID: 5015453479038541326}
   bulletFXTime: 0.3
+  shellsFXTime: 1
 --- !u!4 &2138622154116609045
 Transform:
   m_ObjectHideFlags: 0
@@ -15953,11 +15955,13 @@ MonoBehaviour:
     type: 3}
   bulletFX: {fileID: 1320275964731592, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
   shellsFX: {fileID: 1647599476371734, guid: d1d2a96a9fbbc6d4ebc40a558b89e570, type: 3}
+  bloodFX: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
   shootPoint: {fileID: 209599904}
   playerRoot: {fileID: 6602126607321229361}
   originalParent: {fileID: 158616573740537375}
   PlayerCharAnimator: {fileID: 6054376175072161304}
   bulletFXTime: 0.1
+  shellsFXTime: 1
 --- !u!4 &5705575382633871213
 Transform:
   m_ObjectHideFlags: 0
