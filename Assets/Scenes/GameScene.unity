@@ -1690,6 +1690,7 @@ GameObject:
   m_Component:
   - component: {fileID: 521077925}
   - component: {fileID: 521077924}
+  - component: {fileID: 521077926}
   m_Layer: 0
   m_Name: Virtual Camera
   m_TagString: Untagged
@@ -1752,6 +1753,29 @@ Transform:
   - {fileID: 224172198}
   m_Father: {fileID: 1618950251}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &521077926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521077923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    m_AmplitudeGain: 10
+    m_FrequencyGain: 5
+    m_Duration: 0.5
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &540092323
 GameObject:
   m_ObjectHideFlags: 0
@@ -2061,6 +2085,104 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1708394993}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &645489384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 645489385}
+  - component: {fileID: 645489387}
+  - component: {fileID: 645489386}
+  m_Layer: 0
+  m_Name: ScreenShake
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &645489385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645489384}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1618950251}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &645489386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645489384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea35dabd9db584a95a9f25f8e9d8e9cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &645489387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645489384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 4
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.1
+    m_ImpulseType: 0
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: 0.3, z: 0}
 --- !u!1001 &703486006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2528,7 +2650,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a7b56a80ac9b8ce469c1af0fb5f6f849, type: 3}
-  m_Color: {r: 0.6606889, g: 0.9528302, b: 0.51686543, a: 0.59607846}
+  m_Color: {r: 0.3160377, g: 0.69561255, b: 1, a: 0.59607846}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -4160,7 +4282,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1acaa59fd8634f74b9664cdaa3b45a46, type: 3}
-  m_Color: {r: 0.56429994, g: 1, b: 0.4481132, a: 1}
+  m_Color: {r: 0.4470588, g: 0.8664935, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -4722,7 +4844,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a7b56a80ac9b8ce469c1af0fb5f6f849, type: 3}
-  m_Color: {r: 0.6606889, g: 0.9528302, b: 0.51686543, a: 0.59607846}
+  m_Color: {r: 0.3160377, g: 0.69561255, b: 1, a: 0.59607846}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5019,6 +5141,7 @@ Transform:
   - {fileID: 1567605179}
   - {fileID: 330585546}
   - {fileID: 521077925}
+  - {fileID: 645489385}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1633006921 stripped
@@ -5092,7 +5215,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1acaa59fd8634f74b9664cdaa3b45a46, type: 3}
-  m_Color: {r: 0.56429994, g: 1, b: 0.4481132, a: 1}
+  m_Color: {r: 0.4470588, g: 0.8664935, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -8532,7 +8655,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1acaa59fd8634f74b9664cdaa3b45a46, type: 3}
-  m_Color: {r: 0.56429994, g: 1, b: 0.4481132, a: 1}
+  m_Color: {r: 0.4470588, g: 0.8664935, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -10015,7 +10138,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   shootingRange: 10
-  shootingAngle: 45
+  shootingAngle: 30
   bulletProjectilePrefab: {fileID: 1514583733132967833, guid: 0a9772d003ac843cb96c4a4b8aeb01e5,
     type: 3}
   bulletFX: {fileID: 1320275964731592, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
@@ -15950,7 +16073,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   shootingRange: 10
-  shootingAngle: 45
+  shootingAngle: 30
   bulletProjectilePrefab: {fileID: 1514583733132967833, guid: d4f3eb38728574f44af7126b956831c6,
     type: 3}
   bulletFX: {fileID: 1320275964731592, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
@@ -19284,7 +19407,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a7b56a80ac9b8ce469c1af0fb5f6f849, type: 3}
-  m_Color: {r: 0.6606889, g: 0.9528302, b: 0.51686543, a: 0.59607846}
+  m_Color: {r: 0.3160377, g: 0.69561255, b: 1, a: 0.59607846}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

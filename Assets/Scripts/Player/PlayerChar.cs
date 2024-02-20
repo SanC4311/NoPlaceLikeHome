@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -16,8 +17,8 @@ public class PlayerChar : MonoBehaviour
     [SerializeField] private LayerMask zombieLayer; // Assign this in the inspector
     public float shootingRange = 10f;
     public float shootingAngle = 45f;
-    private bool playerTurned = false;
-    private bool isShootingInProgress = false;
+    public bool playerTurned = false;
+    public bool isShootingInProgress = false;
 
     [SerializeField] private GameObject bulletProjectilePrefab;
     [SerializeField] private GameObject bulletFX;
@@ -28,8 +29,14 @@ public class PlayerChar : MonoBehaviour
     [SerializeField] private Transform playerRoot;
     [SerializeField] private Transform originalParent;
     [SerializeField] private Animator PlayerCharAnimator;
+
+    public bool validWindowPosition = false;
+
+    public bool isRepairing = false;
     public float bulletFXTime = 0.1f;
     public float shellsFXTime = 1f;
+
+    float tolerance = 0.5f;
 
 
 
@@ -54,7 +61,54 @@ public class PlayerChar : MonoBehaviour
             LevelGrid.Instance.PlayerCharMovedGridPosition(this, gridPosition, newGridPosition);
             gridPosition = newGridPosition;
         }
-        EnableAttackMode();
+
+        // these are windows - 1,4 and 3,4. Enable attack mode (which also turns the player)
+        if (((gridPosition.x >= 1 - tolerance && gridPosition.x <= 1 + tolerance) &&
+            (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance)) ||
+            ((gridPosition.x >= 3 - tolerance && gridPosition.x <= 3 + tolerance) &&
+            (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance)))
+        {
+            if (playerTurned)
+            {
+                playerTurned = false;
+            }
+            validWindowPosition = true;
+            EnableAttackMode();
+        }
+        // this is a door - 2,4. Turn player only, and do not enable attack mode
+        else if ((gridPosition.x >= 2 - tolerance && gridPosition.x <= 2 + tolerance) &&
+            (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance))
+        {
+            validWindowPosition = false;
+            Debug.Log("Search this - Door detected, should turn");
+            if (!playerTurned)
+            {
+                Debug.Log("Search this - turning now.");
+                Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                Debug.Log("Search this - Turned");
+                StartCoroutine(TurnComplete());
+            }
+        }
+        else if (attackMode)
+        {
+            attackMode = false;
+            isShootingInProgress = false;
+            PlayerCharAnimator.SetBool("isAiming", false);
+            playerTurned = false;
+            validWindowPosition = false;
+        }
+        else if (playerTurned)
+        {
+            playerTurned = false;
+            validWindowPosition = false;
+        }
+    }
+
+    IEnumerator TurnComplete()
+    {
+        yield return new WaitForSeconds(0.6f);
+        playerTurned = true;
     }
 
     public PlayerMove GetPlayerMove()
@@ -74,11 +128,7 @@ public class PlayerChar : MonoBehaviour
 
     public void EnableAttackMode()
     {
-        float tolerance = 0.5f;
-        if ((gridPosition.x >= 1 - tolerance && gridPosition.x <= 1 + tolerance) &&
-            (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance) ||
-            ((gridPosition.x >= 3 - tolerance && gridPosition.x <= 3 + tolerance) &&
-            (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance)))
+        if (validWindowPosition && !isRepairing)
         {
             if (!playerTurned)
             {
@@ -106,6 +156,7 @@ public class PlayerChar : MonoBehaviour
                 isShootingInProgress = false;
                 PlayerCharAnimator.SetBool("isAiming", false);
                 playerTurned = false;
+                validWindowPosition = false;
             }
         }
     }
@@ -114,10 +165,28 @@ public class PlayerChar : MonoBehaviour
     {
         isShootingInProgress = true;
 
-        while (attackMode)
+        if (isRepairing || !validWindowPosition)
+        {
+            playerTurned = false;
+            PlayerCharAnimator.SetBool("isAiming", false);
+            isShootingInProgress = false;
+            attackMode = false;
+            yield break;
+        }
+
+        while (attackMode && !isRepairing && validWindowPosition)
         {
             PlayerCharAnimator.SetBool("isAiming", true);
             List<Transform> zombiesInSight = new List<Transform>();
+
+            if (isRepairing || !validWindowPosition)
+            {
+                playerTurned = false;
+                PlayerCharAnimator.SetBool("isAiming", false);
+                isShootingInProgress = false;
+                attackMode = false;
+                yield break;
+            }
 
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, zombieLayer);
             foreach (var hitCollider in hitColliders)
@@ -129,17 +198,43 @@ public class PlayerChar : MonoBehaviour
                     {
                         zombiesInSight.Add(hitCollider.transform);
                         Debug.Log("Zombie spotted.");
+
+                        if (isRepairing || !validWindowPosition)
+                        {
+                            playerTurned = false;
+                            PlayerCharAnimator.SetBool("isAiming", false);
+                            isShootingInProgress = false;
+                            attackMode = false;
+                            yield break;
+                        }
                     }
                 }
             }
 
-            if (zombiesInSight.Count > 0)
+            if (zombiesInSight.Count > 0 && !isRepairing && validWindowPosition)
             {
                 Debug.Log("Preparing to shoot zombies.");
                 yield return StartCoroutine(ShootZombies(zombiesInSight));
+
+                if (isRepairing || !validWindowPosition)
+                {
+                    playerTurned = false;
+                    PlayerCharAnimator.SetBool("isAiming", false);
+                    isShootingInProgress = false;
+                    attackMode = false;
+                    yield break;
+                }
             }
             else
             {
+                if (isRepairing || !validWindowPosition)
+                {
+                    playerTurned = false;
+                    PlayerCharAnimator.SetBool("isAiming", false);
+                    isShootingInProgress = false;
+                    attackMode = false;
+                    yield break;
+                }
                 Debug.Log("No zombies in sight.");
                 PlayerCharAnimator.SetBool("isAiming", false);
                 // Wait a moment before checking again
@@ -152,13 +247,34 @@ public class PlayerChar : MonoBehaviour
 
     IEnumerator ShootZombies(List<Transform> zombies)
     {
+        if (isRepairing || !validWindowPosition)
+        {
+            playerTurned = false;
+            isShootingInProgress = false;
+            attackMode = false;
+            yield break;
+        }
+
         yield return new WaitForSeconds(2); // Wait for aim animation to complete
         playerTurned = true;
 
+        if (isRepairing || !validWindowPosition)
+        {
+            playerTurned = false;
+            isShootingInProgress = false;
+            attackMode = false;
+            yield break;
+        }
+
         foreach (Transform zombie in zombies)
         {
-            if (zombie != null) // Check if the zombie still exists
+            if (zombie != null && !isRepairing && validWindowPosition) // Check if the zombie still exists
             {
+                // if zombie is destroyed, step to next zombie
+                if (zombie.GetComponent<ZombieAI>().isDestroyed)
+                {
+                    continue;
+                }
                 Debug.Log($"Targeting zombie at {zombie.position}.");
 
                 // Face the zombie
@@ -166,13 +282,37 @@ public class PlayerChar : MonoBehaviour
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToZombie.x, 0, directionToZombie.z));
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 1f); // Immediate rotation for simplicity
 
+                if (isRepairing || !validWindowPosition)
+                {
+                    playerTurned = false;
+                    isShootingInProgress = false;
+                    attackMode = false;
+                    yield break;
+                }
+
                 // Simulate aiming at the zombie
                 yield return new WaitForSeconds(1f);
                 Debug.Log("Aimed at zombie, preparing to shoot.");
 
+                if (isRepairing || !validWindowPosition)
+                {
+                    playerTurned = false;
+                    isShootingInProgress = false;
+                    attackMode = false;
+                    yield break;
+                }
+
                 // Shoot the zombie
                 PlayerCharAnimator.SetBool("isShooting", true);
                 yield return new WaitForSeconds(0.1f); // Ensure animation starts
+
+                if (isRepairing || !validWindowPosition)
+                {
+                    playerTurned = false;
+                    isShootingInProgress = false;
+                    attackMode = false;
+                    yield break;
+                }
 
                 shootPoint.SetParent(playerRoot, false);
 
@@ -185,6 +325,16 @@ public class PlayerChar : MonoBehaviour
                 GameObject shootingEffect = Instantiate(bulletFX, bulletPosition, quaternion.identity);
                 Quaternion shellsRotation = Quaternion.Euler(0, 0, -90);
                 GameObject shellsEffect = Instantiate(shellsFX, bulletPosition, shellsRotation);
+
+                if (isRepairing || !validWindowPosition)
+                {
+                    Destroy(shootingEffect);
+                    Destroy(shellsEffect);
+                    playerTurned = false;
+                    isShootingInProgress = false;
+                    attackMode = false;
+                    yield break;
+                }
 
                 ParticleSystem ps = shootingEffect.GetComponent<ParticleSystem>();
                 if (ps != null)
@@ -219,6 +369,17 @@ public class PlayerChar : MonoBehaviour
                     Debug.Log("Blood FX Started.");
                 }
 
+                if (isRepairing || !validWindowPosition)
+                {
+                    Destroy(shootingEffect);
+                    Destroy(shellsEffect);
+                    Destroy(bloodEffect);
+                    playerTurned = false;
+                    isShootingInProgress = false;
+                    attackMode = false;
+                    yield break;
+                }
+
                 //yield return new WaitForSeconds(2); // Duration for shooting animation
 
                 // Destroy the zombie
@@ -226,6 +387,16 @@ public class PlayerChar : MonoBehaviour
                 {
                     Debug.Log("Zombie shot and destroying now.");
                     zombie.GetComponent<ZombieAI>().isDestroyed = true;
+                    if (isRepairing || !validWindowPosition)
+                    {
+                        Destroy(shootingEffect);
+                        Destroy(shellsEffect);
+                        Destroy(bloodEffect);
+                        playerTurned = false;
+                        isShootingInProgress = false;
+                        attackMode = false;
+                        yield break;
+                    }
                 }
                 ScreenShake.Instance.ShakeCamera(2.5f);
                 yield return new WaitForSeconds(bulletFXTime);
@@ -237,6 +408,13 @@ public class PlayerChar : MonoBehaviour
                 Destroy(bloodEffect);
 
                 PlayerCharAnimator.SetBool("isShooting", false);
+                if (isRepairing || !validWindowPosition)
+                {
+                    playerTurned = false;
+                    isShootingInProgress = false;
+                    attackMode = false;
+                    yield break;
+                }
                 yield return new WaitForSeconds(1); // Delay before targeting the next zombie
             }
         }
@@ -248,4 +426,24 @@ public class PlayerChar : MonoBehaviour
         playerTurned = false;
     }
 
+    public void RepairDefense()
+    {
+        Debug.Log("isRepairing = true.");
+        isRepairing = true;
+        PlayerCharAnimator.SetBool("isRepairing", true);
+    }
+
+    public void OnRepairComplete()
+    {
+        StartCoroutine(RepairComplete());
+    }
+
+    IEnumerator RepairComplete()
+    {
+        yield return new WaitForSeconds(3);
+        Debug.Log("Repair complete.");
+        PlayerCharAnimator.SetBool("isRepairing", false);
+        Debug.Log("isRepairing = false.");
+        isRepairing = false;
+    }
 }

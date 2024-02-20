@@ -9,6 +9,8 @@ public class GridObject
 
     private List<PlayerChar> playerCharList;
 
+    private DefenseHealthUI defense;
+
     public GridObject(GridSystem gridSystem, GridPosition gridPosition)
     {
         this.gridSystem = gridSystem;
@@ -45,5 +47,15 @@ public class GridObject
     {
         return playerCharList.Count > 0;
     }
+
+    public DefenseHealthUI GetDefense()
+    {
+        return defense;
+    }
+    public void SetDefense(DefenseHealthUI defense)
+    {
+        this.defense = defense;
+    }
+
 
 }

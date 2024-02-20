@@ -58,4 +58,17 @@ public class LevelGrid : MonoBehaviour
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
         return gridObject.HasAnyPlayerChar();
     }
+
+    public DefenseHealthUI GetDefenseAtGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        return gridObject.GetDefense();
+    }
+
+    public void SetDefenseAtGridPosition(GridPosition gridPosition, DefenseHealthUI defense)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        gridObject.SetDefense(defense);
+    }
+
 }

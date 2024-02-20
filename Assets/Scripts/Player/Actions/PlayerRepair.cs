@@ -6,18 +6,67 @@ using UnityEngine;
 
 public class PlayerRepair : PlayerControl
 {
-    public override void DoControl(GridPosition gridPosition, System.Action onActionComplete)
-    {
-        throw new System.NotImplementedException();
-    }
+    private int maxInteractDistance = 1;
 
     public override List<GridPosition> GetValidPositionList()
     {
-        GridPosition playerCharGridPosition = playerChar.GetGridPosition();
+        List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        return new List<GridPosition>
+        GridPosition unitGridPosition = playerChar.GetGridPosition();
+
+        for (int x = -maxInteractDistance; x <= maxInteractDistance; x++)
         {
-            playerCharGridPosition
-        };
+            for (int z = -maxInteractDistance; z <= maxInteractDistance; z++)
+            {
+                GridPosition offsetGridPosition = new GridPosition(x, z);
+                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+
+                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
+                {
+                    continue;
+                }
+
+                DefenseHealthUI defense = LevelGrid.Instance.GetDefenseAtGridPosition(testGridPosition);
+
+                if (defense == null)
+                {
+                    // No Defense on this GridPosition
+                    continue;
+                }
+
+                validGridPositionList.Add(testGridPosition);
+            }
+        }
+
+        return validGridPositionList;
     }
+
+    private void Update()
+    {
+        if (!isActive)
+        {
+            return;
+        }
+    }
+
+    public override void DoControl(GridPosition gridPosition, Action onActionComplete)
+    {
+        DefenseHealthUI defense = LevelGrid.Instance.GetDefenseAtGridPosition(gridPosition);
+
+        if (defense != null)
+        {
+            // Player character animator bool repair true 
+            playerChar.RepairDefense();
+            defense.Repair(OnRepairComplete);
+        }
+
+        ActionStart(onActionComplete);
+    }
+
+    private void OnRepairComplete()
+    {
+        playerChar.OnRepairComplete();
+        ActionComplete();
+    }
+
 }
