@@ -30,7 +30,9 @@ public class ZombieSpawner : MonoBehaviour
     void SpawnZombie()
     {
         int zombieIndex = Random.Range(0, zombiePrefabs.Length); // Select a random zombie variant
-        GameObject spawnedZombie = Instantiate(zombiePrefabs[zombieIndex], transform.position, Quaternion.identity); // Spawn the zombie
+        Quaternion zombieRotation = Quaternion.Euler(0, 180, 0);
+
+        GameObject spawnedZombie = Instantiate(zombiePrefabs[zombieIndex], transform.position, zombieRotation); // Spawn the zombie
 
         // Pass the target position and defense health to the spawned zombie
         ZombieAI zombieAI = spawnedZombie.GetComponent<ZombieAI>();

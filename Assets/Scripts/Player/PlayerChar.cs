@@ -28,6 +28,9 @@ public class PlayerChar : MonoBehaviour
     [SerializeField] private Transform originalParent;
     [SerializeField] private Animator PlayerCharAnimator;
     public float bulletFXTime = 0.1f;
+    public float shellsFXTime = 1f;
+
+
 
     private void Awake()
     {
@@ -214,12 +217,12 @@ public class PlayerChar : MonoBehaviour
                 {
                     Debug.Log("Zombie shot and destroying now.");
                     zombie.GetComponent<ZombieAI>().isDestroyed = true;
-                    yield return new WaitForSeconds(bulletFXTime);
-                    Debug.Log("Bullet FX Done. Destroying effect.");
-                    Destroy(shootingEffect);
-                    yield return new WaitForSeconds(2);
-                    Destroy(shellsEffect);
                 }
+                yield return new WaitForSeconds(bulletFXTime);
+                Debug.Log("Bullet FX Done. Destroying effect.");
+                Destroy(shootingEffect);
+                yield return new WaitForSeconds(shellsFXTime);
+                Destroy(shellsEffect);
 
                 PlayerCharAnimator.SetBool("isShooting", false);
                 yield return new WaitForSeconds(1); // Delay before targeting the next zombie
