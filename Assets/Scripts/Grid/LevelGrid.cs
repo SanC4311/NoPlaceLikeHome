@@ -71,4 +71,16 @@ public class LevelGrid : MonoBehaviour
         gridObject.SetDefense(defense);
     }
 
+    public AmmoPile GetAmmoPileAtGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        return gridObject.GetAmmoPile();
+    }
+
+    public void SetAmmoPileAtGridPosition(GridPosition gridPosition, AmmoPile ammoPile)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        gridObject.SetAmmoPile(ammoPile);
+    }
+
 }

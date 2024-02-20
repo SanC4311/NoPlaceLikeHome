@@ -11,6 +11,8 @@ public class GridObject
 
     private DefenseHealthUI defense;
 
+    private AmmoPile ammoPile;
+
     public GridObject(GridSystem gridSystem, GridPosition gridPosition)
     {
         this.gridSystem = gridSystem;
@@ -55,6 +57,16 @@ public class GridObject
     public void SetDefense(DefenseHealthUI defense)
     {
         this.defense = defense;
+    }
+
+    public AmmoPile GetAmmoPile()
+    {
+        return ammoPile;
+    }
+
+    public void SetAmmoPile(AmmoPile ammoPile)
+    {
+        this.ammoPile = ammoPile;
     }
 
 

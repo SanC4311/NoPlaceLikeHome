@@ -19,26 +19,22 @@ public class PlayerChar : MonoBehaviour
     public float shootingAngle = 45f;
     public bool playerTurned = false;
     public bool isShootingInProgress = false;
-
+    public int startingBullets = 10;
+    public int bullets;
+    public bool outOfAmmo = false;
     [SerializeField] private GameObject bulletProjectilePrefab;
     [SerializeField] private GameObject bulletFX;
     [SerializeField] private GameObject shellsFX;
     [SerializeField] private GameObject bloodFX;
     [SerializeField] private Transform shootPoint;
-
     [SerializeField] private Transform playerRoot;
     [SerializeField] private Transform originalParent;
     [SerializeField] private Animator PlayerCharAnimator;
-
     public bool validWindowPosition = false;
-
     public bool isRepairing = false;
     public float bulletFXTime = 0.1f;
     public float shellsFXTime = 1f;
-
     float tolerance = 0.5f;
-
-
 
     private void Awake()
     {
@@ -51,6 +47,8 @@ public class PlayerChar : MonoBehaviour
     {
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddPlayerCharAtGridPosition(gridPosition, this);
+
+        bullets = startingBullets;
     }
 
     private void Update()
@@ -80,6 +78,7 @@ public class PlayerChar : MonoBehaviour
             (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance))
         {
             validWindowPosition = false;
+            attackMode = false;
             Debug.Log("Search this - Door detected, should turn");
             if (!playerTurned)
             {
@@ -103,6 +102,18 @@ public class PlayerChar : MonoBehaviour
             playerTurned = false;
             validWindowPosition = false;
         }
+
+        if (bullets <= 0)
+        {
+            outOfAmmo = true;
+        }
+        else
+        {
+            outOfAmmo = false;
+        }
+
+        Debug.Log("bullets: " + bullets);
+        Debug.Log("bullets outOfAmmo: " + outOfAmmo);
     }
 
     IEnumerator TurnComplete()
@@ -128,6 +139,11 @@ public class PlayerChar : MonoBehaviour
 
     public void EnableAttackMode()
     {
+        if (outOfAmmo)
+        {
+            Debug.Log("Out of ammo, cannot enable attack mode.");
+            return;
+        }
         if (validWindowPosition && !isRepairing)
         {
             if (!playerTurned)
@@ -138,6 +154,11 @@ public class PlayerChar : MonoBehaviour
             if (!attackMode)
             {
                 Debug.Log("Attack mode enabled.");
+                if (outOfAmmo)
+                {
+                    Debug.Log("Out of ammo, cannot enable attack mode.");
+                    return;
+                }
                 attackMode = true;
                 if (!isShootingInProgress)
                 {
@@ -165,7 +186,7 @@ public class PlayerChar : MonoBehaviour
     {
         isShootingInProgress = true;
 
-        if (isRepairing || !validWindowPosition)
+        if (isRepairing || !validWindowPosition || outOfAmmo)
         {
             playerTurned = false;
             PlayerCharAnimator.SetBool("isAiming", false);
@@ -174,12 +195,12 @@ public class PlayerChar : MonoBehaviour
             yield break;
         }
 
-        while (attackMode && !isRepairing && validWindowPosition)
+        while (attackMode && !isRepairing && validWindowPosition && !outOfAmmo)
         {
             PlayerCharAnimator.SetBool("isAiming", true);
             List<Transform> zombiesInSight = new List<Transform>();
 
-            if (isRepairing || !validWindowPosition)
+            if (isRepairing || !validWindowPosition || outOfAmmo)
             {
                 playerTurned = false;
                 PlayerCharAnimator.SetBool("isAiming", false);
@@ -199,7 +220,7 @@ public class PlayerChar : MonoBehaviour
                         zombiesInSight.Add(hitCollider.transform);
                         Debug.Log("Zombie spotted.");
 
-                        if (isRepairing || !validWindowPosition)
+                        if (isRepairing || !validWindowPosition || outOfAmmo)
                         {
                             playerTurned = false;
                             PlayerCharAnimator.SetBool("isAiming", false);
@@ -211,12 +232,12 @@ public class PlayerChar : MonoBehaviour
                 }
             }
 
-            if (zombiesInSight.Count > 0 && !isRepairing && validWindowPosition)
+            if (zombiesInSight.Count > 0 && !isRepairing && validWindowPosition && !outOfAmmo)
             {
                 Debug.Log("Preparing to shoot zombies.");
                 yield return StartCoroutine(ShootZombies(zombiesInSight));
 
-                if (isRepairing || !validWindowPosition)
+                if (isRepairing || !validWindowPosition || outOfAmmo)
                 {
                     playerTurned = false;
                     PlayerCharAnimator.SetBool("isAiming", false);
@@ -227,7 +248,7 @@ public class PlayerChar : MonoBehaviour
             }
             else
             {
-                if (isRepairing || !validWindowPosition)
+                if (isRepairing || !validWindowPosition || outOfAmmo)
                 {
                     playerTurned = false;
                     PlayerCharAnimator.SetBool("isAiming", false);
@@ -247,7 +268,7 @@ public class PlayerChar : MonoBehaviour
 
     IEnumerator ShootZombies(List<Transform> zombies)
     {
-        if (isRepairing || !validWindowPosition)
+        if (isRepairing || !validWindowPosition || outOfAmmo)
         {
             playerTurned = false;
             isShootingInProgress = false;
@@ -258,7 +279,7 @@ public class PlayerChar : MonoBehaviour
         yield return new WaitForSeconds(2); // Wait for aim animation to complete
         playerTurned = true;
 
-        if (isRepairing || !validWindowPosition)
+        if (isRepairing || !validWindowPosition || outOfAmmo)
         {
             playerTurned = false;
             isShootingInProgress = false;
@@ -268,7 +289,7 @@ public class PlayerChar : MonoBehaviour
 
         foreach (Transform zombie in zombies)
         {
-            if (zombie != null && !isRepairing && validWindowPosition) // Check if the zombie still exists
+            if (zombie != null && !isRepairing && validWindowPosition && !outOfAmmo) // Check if the zombie still exists
             {
                 // if zombie is destroyed, step to next zombie
                 if (zombie.GetComponent<ZombieAI>().isDestroyed)
@@ -282,7 +303,7 @@ public class PlayerChar : MonoBehaviour
                 Quaternion lookRotation = Quaternion.LookRotation(new Vector3(directionToZombie.x, 0, directionToZombie.z));
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 1f); // Immediate rotation for simplicity
 
-                if (isRepairing || !validWindowPosition)
+                if (isRepairing || !validWindowPosition || outOfAmmo)
                 {
                     playerTurned = false;
                     isShootingInProgress = false;
@@ -294,7 +315,7 @@ public class PlayerChar : MonoBehaviour
                 yield return new WaitForSeconds(1f);
                 Debug.Log("Aimed at zombie, preparing to shoot.");
 
-                if (isRepairing || !validWindowPosition)
+                if (isRepairing || !validWindowPosition || outOfAmmo)
                 {
                     playerTurned = false;
                     isShootingInProgress = false;
@@ -306,7 +327,7 @@ public class PlayerChar : MonoBehaviour
                 PlayerCharAnimator.SetBool("isShooting", true);
                 yield return new WaitForSeconds(0.1f); // Ensure animation starts
 
-                if (isRepairing || !validWindowPosition)
+                if (isRepairing || !validWindowPosition || outOfAmmo)
                 {
                     playerTurned = false;
                     isShootingInProgress = false;
@@ -326,7 +347,7 @@ public class PlayerChar : MonoBehaviour
                 Quaternion shellsRotation = Quaternion.Euler(0, 0, -90);
                 GameObject shellsEffect = Instantiate(shellsFX, bulletPosition, shellsRotation);
 
-                if (isRepairing || !validWindowPosition)
+                if (isRepairing || !validWindowPosition || outOfAmmo)
                 {
                     Destroy(shootingEffect);
                     Destroy(shellsEffect);
@@ -356,6 +377,7 @@ public class PlayerChar : MonoBehaviour
                 BulletProjectile bulletProjectile = trailEffect.GetComponent<BulletProjectile>();
                 if (zombie != null)
                 {
+                    bullets--;
                     Vector3 shotPosition = new Vector3(zombie.position.x, (float)(zombie.position.y + 1.315), zombie.position.z);
                     bulletProjectile.Setup(shotPosition);
                     bloodEffect = Instantiate(bloodFX, shotPosition, quaternion.identity);
@@ -369,7 +391,7 @@ public class PlayerChar : MonoBehaviour
                     Debug.Log("Blood FX Started.");
                 }
 
-                if (isRepairing || !validWindowPosition)
+                if (isRepairing || !validWindowPosition || outOfAmmo)
                 {
                     Destroy(shootingEffect);
                     Destroy(shellsEffect);
@@ -387,7 +409,7 @@ public class PlayerChar : MonoBehaviour
                 {
                     Debug.Log("Zombie shot and destroying now.");
                     zombie.GetComponent<ZombieAI>().isDestroyed = true;
-                    if (isRepairing || !validWindowPosition)
+                    if (isRepairing || !validWindowPosition || outOfAmmo)
                     {
                         Destroy(shootingEffect);
                         Destroy(shellsEffect);
@@ -408,7 +430,7 @@ public class PlayerChar : MonoBehaviour
                 Destroy(bloodEffect);
 
                 PlayerCharAnimator.SetBool("isShooting", false);
-                if (isRepairing || !validWindowPosition)
+                if (isRepairing || !validWindowPosition || outOfAmmo)
                 {
                     playerTurned = false;
                     isShootingInProgress = false;
@@ -446,4 +468,24 @@ public class PlayerChar : MonoBehaviour
         Debug.Log("isRepairing = false.");
         isRepairing = false;
     }
+
+    public void reloadBullets()
+    {
+        bullets = startingBullets;
+        outOfAmmo = false;
+        PlayerCharAnimator.SetBool("isReloading", true);
+    }
+
+    public void OnReloadComplete()
+    {
+        StartCoroutine(ReloadComplete());
+    }
+
+    IEnumerator ReloadComplete()
+    {
+        yield return new WaitForSeconds(2);
+        PlayerCharAnimator.SetBool("isReloading", false);
+    }
+
+
 }

@@ -12,14 +12,14 @@ public class PlayerRepair : PlayerControl
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        GridPosition unitGridPosition = playerChar.GetGridPosition();
+        GridPosition playerGridPosition = playerChar.GetGridPosition();
 
         for (int x = -maxInteractDistance; x <= maxInteractDistance; x++)
         {
             for (int z = -maxInteractDistance; z <= maxInteractDistance; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+                GridPosition testGridPosition = playerGridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
                 {
