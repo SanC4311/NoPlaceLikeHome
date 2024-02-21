@@ -9,6 +9,8 @@ public class BulletsUI : MonoBehaviour
     public GameObject bulletUIPrefab; // Reference to the bullet UI prefab
     public HorizontalLayoutGroup bulletsContainer; // Parent container for bullet UIs
     public GameObject[] bulletUIPool; // Pool of bullet UI elements
+    public GameObject outOfAmmoVisual; // Assign this in the Unity Editor
+
     public int maxAmmo = 20; // Set this to your player's maximum ammo capacity
 
     private void Start()
@@ -26,6 +28,7 @@ public class BulletsUI : MonoBehaviour
             bulletUI.SetActive(false); // Start with all bullet UIs disabled
             bulletUIPool[i] = bulletUI;
         }
+        outOfAmmoVisual.SetActive(false);
     }
 
     private void Bullets_OnAmmoChanged(object sender, PlayerChar.OnAmmoChangedEventArgs e)
@@ -39,6 +42,9 @@ public class BulletsUI : MonoBehaviour
         {
             bulletUIPool[i].SetActive(i < bulletCount);
         }
+
+        // Enable the outOfAmmo visual if there's no ammo left, disable it otherwise
+        outOfAmmoVisual.SetActive(bulletCount == 0);
     }
 
     private void OnDestroy()
