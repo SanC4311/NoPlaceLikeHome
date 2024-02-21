@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4002673083530312046}
   - component: {fileID: 3219014303484839303}
   - component: {fileID: 7136843507598307421}
+  - component: {fileID: 8648038083015414849}
   m_Layer: 8
   m_Name: ZombieAIFemale2
   m_TagString: Zombie
@@ -32,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2777291277262732940}
+  - {fileID: 7084120821519479317}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3219014303484839303
@@ -48,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zombieAnimator: {fileID: 2870979514565357022}
   targetPosition: {fileID: 0}
-  moveSpeed: 0.8
+  moveSpeed: 0.4
   stoppingDistance: 0.5
   spawnInterval: 5
   zombieLayer:
@@ -57,6 +59,9 @@ MonoBehaviour:
   checkDistance: 0.2
   attackRate: 1
   attackDamage: 10
+  isDestroyed: 0
+  audioHandler: {fileID: 8648038083015414849}
+  footsSource: {fileID: 6492593361779991522}
   defenseHealth: {fileID: 0}
 --- !u!136 &7136843507598307421
 CapsuleCollider:
@@ -81,6 +86,19 @@ CapsuleCollider:
   m_Height: 2.4962928
   m_Direction: 1
   m_Center: {x: 0, y: 0.7481464, z: 0}
+--- !u!114 &8648038083015414849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4339770360063102945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c8dad0391834f7d8d103c3e00c7876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footsSource: {fileID: 6492593361779991522}
 --- !u!1001 &2775404592246820434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -159,4 +177,104 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 95687670202327948, guid: 115e889341316e74b9a33d9cbcdd61b2,
     type: 3}
   m_PrefabInstance: {fileID: 2775404592246820434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6706487815264526694
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4002673083530312046}
+    m_Modifications:
+    - target: {fileID: 506769727266701956, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 506769727266701956, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a266aee988bc4c52b53abfcc3fc88f7, type: 3}
+    - target: {fileID: 506769727266701956, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: DopplerLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 506769727266701956, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7441881242416597433, guid: 1899204d20f084c07a7715b6a823d0c8,
+        type: 3}
+      propertyPath: m_Name
+      value: SoundSources
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1899204d20f084c07a7715b6a823d0c8, type: 3}
+--- !u!82 &6492593361779991522 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 506769727266701956, guid: 1899204d20f084c07a7715b6a823d0c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6706487815264526694}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7084120821519479317 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4566053503672128371, guid: 1899204d20f084c07a7715b6a823d0c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6706487815264526694}
   m_PrefabAsset: {fileID: 0}

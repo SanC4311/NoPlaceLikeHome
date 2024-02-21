@@ -9,8 +9,9 @@ public class PlayerMove : PlayerControl
     [SerializeField] private float rotateSpeed = 3f;
     [SerializeField] private float moveSpeed = 3.2f;
     [SerializeField] private Animator playerCharAnimator;
-    [SerializeField] private int maxMoveDistance = 4;
+    [SerializeField] private int maxMoveDistance = 10;
     private Vector3 targetPosition;
+    [SerializeField] private AudioHandler audioHandler;
     protected override void Awake()
     {
         base.Awake();
@@ -29,16 +30,19 @@ public class PlayerMove : PlayerControl
 
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
+
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
             // Set IsWalking to true
             playerCharAnimator.SetBool("IsWalking", true);
         }
         else
         {
+            audioHandler.StopFootsteps();
             // Set IsWalking to false
             playerCharAnimator.SetBool("IsWalking", false);
             isActive = false;
             onActionComplete();
+
         }
 
         // Adjust rotation to only consider the y-axis
@@ -55,6 +59,7 @@ public class PlayerMove : PlayerControl
         this.onActionComplete = onActionComplete;
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         isActive = true;
+        audioHandler.PlayFootsteps(0.8f, 1.5f);
     }
 
     public override List<GridPosition> GetValidPositionList()

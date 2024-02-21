@@ -30,6 +30,7 @@ public class PlayerChar : MonoBehaviour
     [SerializeField] private Transform playerRoot;
     [SerializeField] private Transform originalParent;
     [SerializeField] private Animator PlayerCharAnimator;
+    [SerializeField] private AudioHandler audioHandler;
     public bool validWindowPosition = false;
     public bool isRepairing = false;
     public float bulletFXTime = 0.1f;
@@ -367,6 +368,8 @@ public class PlayerChar : MonoBehaviour
                     yield break;
                 }
 
+                audioHandler.PlayGunshot();
+
                 ParticleSystem ps = shootingEffect.GetComponent<ParticleSystem>();
                 if (ps != null)
                 {
@@ -442,6 +445,7 @@ public class PlayerChar : MonoBehaviour
                 Destroy(shellsEffect);
                 yield return new WaitForSeconds(1);
                 Destroy(bloodEffect);
+                audioHandler.StopGunshot();
 
                 PlayerCharAnimator.SetBool("isShooting", false);
                 if (isRepairing || !validWindowPosition || outOfAmmo)
