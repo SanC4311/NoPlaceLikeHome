@@ -7,7 +7,6 @@ public class ZombieAI : MonoBehaviour
 {
     [SerializeField] private Animator zombieAnimator;
     public Transform targetPosition;
-    //[SerializeField] private NavMeshAgent agent;
     public float moveSpeed = 3.2f;
     public float stoppingDistance;
     public float spawnInterval = 5f;
@@ -17,8 +16,8 @@ public class ZombieAI : MonoBehaviour
     public float checkDistance = 0.2f; // Distance to check for other zombies in front
 
     private bool reachedTarget = false;
-    public float attackRate = 2f; // How often the zombie attacks in seconds
-    public float attackDamage = 10f; // Damage per attack
+    public float attackRate = 5f; // How often the zombie attacks in seconds
+    public float attackDamage = 5f; // Damage per attack
     private float lastAttackTime = 0f; // Time since last attack
 
     public bool isDestroyed = false;
@@ -68,11 +67,18 @@ public class ZombieAI : MonoBehaviour
             zombieAnimator.SetBool("Attack", true);
             if (Time.time - lastAttackTime >= attackRate)
             {
-
+                audioHandler.PlayGunshot();
                 AttackTarget();
                 lastAttackTime = Time.time;
+                StartCoroutine(StopAttackSound());
             }
         }
+    }
+
+    private IEnumerator StopAttackSound()
+    {
+        yield return new WaitForSeconds(2f);
+        audioHandler.StopGunshot();
     }
 
     public void MoveToTarget()
@@ -123,6 +129,7 @@ public class ZombieAI : MonoBehaviour
             if (targetHealth != null)
             {
                 targetHealth.TakeDamage(attackDamage);
+
                 // Debug.Log("Zombie attacked the target for " + attackDamage + " damage!");
                 // Debug.Log("Target health: " + targetHealth.health);
             }

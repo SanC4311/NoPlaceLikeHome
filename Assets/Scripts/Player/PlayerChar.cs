@@ -123,8 +123,8 @@ public class PlayerChar : MonoBehaviour
             outOfAmmo = false;
         }
 
-        Debug.Log("bullets: " + bullets);
-        Debug.Log("bullets outOfAmmo: " + outOfAmmo);
+        // Debug.Log("bullets: " + bullets);
+        // Debug.Log("bullets outOfAmmo: " + outOfAmmo);
     }
 
     IEnumerator TurnComplete()
