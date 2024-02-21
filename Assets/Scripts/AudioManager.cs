@@ -24,22 +24,26 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayAmbience("Ambience");
+        StartCoroutine(PlayAmbience());
     }
 
-    public void PlayAmbience(string name)
+    // Fade in play ambience 
+
+    private IEnumerator PlayAmbience()
     {
-        Sound s = Array.Find(ambienceSounds, x => x.soundName == name);
-        if (s == null)
+        ambienceSource.volume = 0;
+        ambienceSource.clip = ambienceSounds[0].soundClip;
+        ambienceSource.Play();
+
+        while (ambienceSource.volume < 0.6)
         {
-            Debug.Log("Sound Not Found");
-        }
-        else
-        {
-            ambienceSource.clip = s.soundClip;
-            ambienceSource.Play();
+            // Do it slower
+            ambienceSource.volume += Time.deltaTime / 16;
+            yield return null;
         }
     }
+
+
 
 
 }
