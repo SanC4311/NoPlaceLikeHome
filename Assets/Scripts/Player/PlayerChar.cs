@@ -19,7 +19,7 @@ public class PlayerChar : MonoBehaviour
     public float shootingAngle = 45f;
     public bool playerTurned = false;
     public bool isShootingInProgress = false;
-    public int startingBullets = 10;
+    public int startingBullets = 20;
     public int bullets;
     public bool outOfAmmo = false;
     [SerializeField] private GameObject bulletProjectilePrefab;
@@ -36,6 +36,12 @@ public class PlayerChar : MonoBehaviour
     public float shellsFXTime = 1f;
     float tolerance = 0.5f;
 
+    public event EventHandler<OnAmmoChangedEventArgs> OnAmmoChanged;
+    public class OnAmmoChangedEventArgs : EventArgs
+    {
+        public int Ammo;
+    }
+
     private void Awake()
     {
         playerMove = GetComponent<PlayerMove>();
@@ -49,6 +55,10 @@ public class PlayerChar : MonoBehaviour
         LevelGrid.Instance.AddPlayerCharAtGridPosition(gridPosition, this);
 
         bullets = startingBullets;
+        OnAmmoChanged?.Invoke(this, new OnAmmoChangedEventArgs
+        {
+            Ammo = bullets
+        });
     }
 
     private void Update()
@@ -377,7 +387,11 @@ public class PlayerChar : MonoBehaviour
                 BulletProjectile bulletProjectile = trailEffect.GetComponent<BulletProjectile>();
                 if (zombie != null)
                 {
-                    bullets--;
+                    bullets = bullets - 1;
+                    OnAmmoChanged?.Invoke(this, new OnAmmoChangedEventArgs
+                    {
+                        Ammo = bullets
+                    });
                     Vector3 shotPosition = new Vector3(zombie.position.x, (float)(zombie.position.y + 1.315), zombie.position.z);
                     bulletProjectile.Setup(shotPosition);
                     bloodEffect = Instantiate(bloodFX, shotPosition, quaternion.identity);
@@ -473,6 +487,11 @@ public class PlayerChar : MonoBehaviour
     {
         bullets = startingBullets;
         outOfAmmo = false;
+        OnAmmoChanged?.Invoke(this, new OnAmmoChangedEventArgs
+        {
+            Ammo = bullets
+        });
+
         PlayerCharAnimator.SetBool("isReloading", true);
     }
 
