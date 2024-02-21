@@ -8,6 +8,8 @@ public class PlayerAmmo : PlayerControl
 
     private int maxInteractDistance = 1;
 
+    [SerializeField] AudioHandler audioHandler;
+
     public override List<GridPosition> GetValidPositionList()
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
@@ -54,6 +56,7 @@ public class PlayerAmmo : PlayerControl
 
         if (ammoPile != null)
         {
+            audioHandler.PlayReload();
             playerChar.reloadBullets();
             ammoPile.Reload(OnReloadComplete);
         }
@@ -65,5 +68,12 @@ public class PlayerAmmo : PlayerControl
     {
         playerChar.OnReloadComplete();
         ActionComplete();
+        StartCoroutine(StopReloadSound());
+    }
+
+    private IEnumerator StopReloadSound()
+    {
+        yield return new WaitForSeconds(2f);
+        audioHandler.StopReload();
     }
 }

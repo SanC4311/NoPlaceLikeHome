@@ -6,9 +6,10 @@ public class AudioHandler : MonoBehaviour
 {
     [SerializeField] private AudioSource footsSource;
     [SerializeField] private AudioSource gunSource;
+    [SerializeField] private AudioSource reloadSource;
+    [SerializeField] private AudioSource repairSource;
     public AudioClip[] gunSounds;
     private int randomGunSound;
-
     public void PlayFootsteps(float pitchLow, float pitchHigh)
     {
         footsSource.pitch = UnityEngine.Random.Range(pitchLow, pitchHigh);
@@ -25,12 +26,33 @@ public class AudioHandler : MonoBehaviour
         randomGunSound = Random.Range(0, 3);
         gunSource.clip = gunSounds[randomGunSound];
         Debug.Log("Gun sound: " + randomGunSound);
+        gunSource.pitch = UnityEngine.Random.Range(0.9f, 1.2f);
         gunSource.Play();
     }
 
     public void StopGunshot()
     {
         gunSource.Stop();
+    }
+
+    public void PlayReload()
+    {
+        reloadSource.Play();
+    }
+
+    public void StopReload()
+    {
+        reloadSource.Stop();
+    }
+
+    public void PlayRepair()
+    {
+        repairSource.Play();
+    }
+
+    public void StopRepair()
+    {
+        repairSource.Stop();
     }
 
 

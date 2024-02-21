@@ -8,6 +8,8 @@ public class PlayerRepair : PlayerControl
 {
     private int maxInteractDistance = 1;
 
+    [SerializeField] private AudioHandler audioHandler;
+
     public override List<GridPosition> GetValidPositionList()
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
@@ -55,6 +57,7 @@ public class PlayerRepair : PlayerControl
 
         if (defense != null)
         {
+            audioHandler.PlayRepair();
             // Player character animator bool repair true 
             playerChar.RepairDefense();
             defense.Repair(OnRepairComplete);
@@ -67,6 +70,13 @@ public class PlayerRepair : PlayerControl
     {
         playerChar.OnRepairComplete();
         ActionComplete();
+        StartCoroutine(StopRepairSound());
+    }
+
+    private IEnumerator StopRepairSound()
+    {
+        yield return new WaitForSeconds(3f);
+        audioHandler.StopRepair();
     }
 
 }
