@@ -348,8 +348,8 @@ public class PlayerChar : MonoBehaviour
 
                 shootPoint.SetParent(playerRoot, false);
 
-                Debug.Log("Local: " + shootPoint.localPosition);
-                Debug.Log("Global: " + shootPoint.position);
+                // Debug.Log("Local: " + shootPoint.localPosition);
+                // Debug.Log("Global: " + shootPoint.position);
 
                 Vector3 bulletPosition = new Vector3((float)(shootPoint.position.x + 0.117), (float)(shootPoint.position.y + 1.315 - 0.082), (float)(shootPoint.position.z + 0.023));
                 GameObject trailEffect = Instantiate(bulletProjectilePrefab, bulletPosition, quaternion.identity);

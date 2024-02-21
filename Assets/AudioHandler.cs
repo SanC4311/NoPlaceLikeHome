@@ -25,7 +25,7 @@ public class AudioHandler : MonoBehaviour
     {
         randomGunSound = Random.Range(0, 3);
         gunSource.clip = gunSounds[randomGunSound];
-        Debug.Log("Gun sound: " + randomGunSound);
+        //Debug.Log("Gun sound: " + randomGunSound);
         gunSource.pitch = UnityEngine.Random.Range(0.8f, 1.3f);
         gunSource.Play();
     }
