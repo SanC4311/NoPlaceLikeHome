@@ -99,6 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   footsSource: {fileID: 4158276189857943212}
+  gunSource: {fileID: 0}
+  reloadSource: {fileID: 0}
+  repairSource: {fileID: 0}
+  gunSounds: []
 --- !u!1001 &2402191620505442641
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189,7 +193,7 @@ PrefabInstance:
     - target: {fileID: 506769727266701956, guid: 1899204d20f084c07a7715b6a823d0c8,
         type: 3}
       propertyPath: m_Volume
-      value: 0.7
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 506769727266701956, guid: 1899204d20f084c07a7715b6a823d0c8,
         type: 3}

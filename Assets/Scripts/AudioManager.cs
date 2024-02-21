@@ -35,10 +35,10 @@ public class AudioManager : MonoBehaviour
         ambienceSource.clip = ambienceSounds[0].soundClip;
         ambienceSource.Play();
 
-        while (ambienceSource.volume < 0.6)
+        while (ambienceSource.volume < 0.4)
         {
             // Do it slower
-            ambienceSource.volume += Time.deltaTime / 16;
+            ambienceSource.volume += Time.deltaTime / 20;
             yield return null;
         }
     }
