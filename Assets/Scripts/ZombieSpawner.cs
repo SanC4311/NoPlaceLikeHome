@@ -30,7 +30,8 @@ public class ZombieSpawner : MonoBehaviour
     void SpawnZombie()
     {
         int zombieIndex = Random.Range(0, zombiePrefabs.Length); // Select a random zombie variant
-        Quaternion zombieRotation = Quaternion.Euler(0, 180, 0);
+
+        Quaternion zombieRotation = Quaternion.Euler(0, Random.Range(0, 360), 0); // Random rotation
 
         GameObject spawnedZombie = Instantiate(zombiePrefabs[zombieIndex], transform.position, zombieRotation); // Spawn the zombie
 

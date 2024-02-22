@@ -37,6 +37,15 @@ public class PlayerChar : MonoBehaviour
     public float shellsFXTime = 1f;
     float tolerance = 0.5f;
 
+    private enum wallType
+    {
+        front,
+        back,
+        left,
+        right
+    }
+    wallType wall = wallType.front;
+
     public event EventHandler<OnAmmoChangedEventArgs> OnAmmoChanged;
     public class OnAmmoChangedEventArgs : EventArgs
     {
@@ -77,6 +86,7 @@ public class PlayerChar : MonoBehaviour
             ((gridPosition.x >= 3 - tolerance && gridPosition.x <= 3 + tolerance) &&
             (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance)))
         {
+            wall = wallType.front;
             if (playerTurned)
             {
                 playerTurned = false;
@@ -88,15 +98,38 @@ public class PlayerChar : MonoBehaviour
         else if ((gridPosition.x >= 2 - tolerance && gridPosition.x <= 2 + tolerance) &&
             (gridPosition.z >= 4 - tolerance && gridPosition.z <= 4 + tolerance))
         {
+            wall = wallType.front;
             validWindowPosition = false;
             attackMode = false;
-            Debug.Log("Search this - Door detected, should turn");
             if (!playerTurned)
             {
-                Debug.Log("Search this - turning now.");
+
                 Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-                Debug.Log("Search this - Turned");
+                StartCoroutine(TurnComplete());
+            }
+        }
+        else if ((gridPosition.x >= 2 - tolerance && gridPosition.x <= 2 + tolerance) &&
+            (gridPosition.z >= 0 - tolerance && gridPosition.z <= 0 + tolerance))
+        {
+            wall = wallType.back;
+            if (playerTurned)
+            {
+                playerTurned = false;
+            }
+            validWindowPosition = true;
+            EnableAttackMode();
+        }
+        else if ((gridPosition.x >= 3 - tolerance && gridPosition.x <= 3 + tolerance) &&
+                    (gridPosition.z >= 0 - tolerance && gridPosition.z <= 0 + tolerance))
+        {
+            wall = wallType.back;
+            validWindowPosition = false;
+            attackMode = false;
+            if (!playerTurned)
+            {
+                Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180, transform.rotation.eulerAngles.z);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
                 StartCoroutine(TurnComplete());
             }
         }
@@ -159,7 +192,15 @@ public class PlayerChar : MonoBehaviour
         {
             if (!playerTurned)
             {
-                Quaternion targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
+                Quaternion targetRotation = Quaternion.identity;
+                if (wall == wallType.front)
+                {
+                    targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
+                }
+                else if (wall == wallType.back)
+                {
+                    targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180, transform.rotation.eulerAngles.z);
+                }
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
             }
             if (!attackMode)
