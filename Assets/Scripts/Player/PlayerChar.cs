@@ -133,6 +133,30 @@ public class PlayerChar : MonoBehaviour
                 StartCoroutine(TurnComplete());
             }
         }
+        else if (((gridPosition.x >= 0 - tolerance && gridPosition.x <= 0 + tolerance) &&
+            (gridPosition.z >= 1 - tolerance && gridPosition.z <= 1 + tolerance)) ||
+            ((gridPosition.x >= 0 - tolerance && gridPosition.x <= 0 + tolerance) &&
+            (gridPosition.z >= 3 - tolerance && gridPosition.z <= 3 + tolerance)))
+        {
+            wall = wallType.left;
+            if (playerTurned)
+            {
+                playerTurned = false;
+            }
+            validWindowPosition = true;
+            EnableAttackMode();
+        }
+        else if ((gridPosition.x >= 4 - tolerance && gridPosition.x <= 4 + tolerance) &&
+            (gridPosition.z >= 1 - tolerance && gridPosition.z <= 1 + tolerance))
+        {
+            wall = wallType.right;
+            if (playerTurned)
+            {
+                playerTurned = false;
+            }
+            validWindowPosition = true;
+            EnableAttackMode();
+        }
         else if (attackMode)
         {
             attackMode = false;
@@ -200,6 +224,14 @@ public class PlayerChar : MonoBehaviour
                 else if (wall == wallType.back)
                 {
                     targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180, transform.rotation.eulerAngles.z);
+                }
+                else if (wall == wallType.left)
+                {
+                    targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, -90, transform.rotation.eulerAngles.z);
+                }
+                else if (wall == wallType.right)
+                {
+                    targetRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 90, transform.rotation.eulerAngles.z);
                 }
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
             }
