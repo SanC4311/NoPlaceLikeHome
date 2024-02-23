@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Linq;
+
 
 public class PlayerChar : MonoBehaviour
 {
@@ -293,6 +295,7 @@ public class PlayerChar : MonoBehaviour
                 yield break;
             }
 
+            // Populate zombiesInSight with detected zombies
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, shootingRange, zombieLayer);
             foreach (var hitCollider in hitColliders)
             {
@@ -303,18 +306,13 @@ public class PlayerChar : MonoBehaviour
                     {
                         zombiesInSight.Add(hitCollider.transform);
                         Debug.Log("Zombie spotted.");
-
-                        if (isRepairing || !validWindowPosition || outOfAmmo)
-                        {
-                            playerTurned = false;
-                            PlayerCharAnimator.SetBool("isAiming", false);
-                            isShootingInProgress = false;
-                            attackMode = false;
-                            yield break;
-                        }
                     }
                 }
             }
+
+            // Now sort zombiesInSight by distance from the survivor
+            zombiesInSight = zombiesInSight.OrderBy(
+                z => (z.position - transform.position).sqrMagnitude).ToList();
 
             if (zombiesInSight.Count > 0 && !isRepairing && validWindowPosition && !outOfAmmo)
             {
@@ -396,7 +394,6 @@ public class PlayerChar : MonoBehaviour
                 }
 
                 // Simulate aiming at the zombie
-                yield return new WaitForSeconds(1f);
                 Debug.Log("Aimed at zombie, preparing to shoot.");
 
                 if (isRepairing || !validWindowPosition || outOfAmmo)
@@ -499,6 +496,7 @@ public class PlayerChar : MonoBehaviour
                 {
                     Debug.Log("Zombie shot and destroying now.");
                     zombie.GetComponent<ZombieAI>().isDestroyed = true;
+                    zombie.GetComponent<ZombieAI>().DeathSound();
                     if (isRepairing || !validWindowPosition || outOfAmmo)
                     {
                         Destroy(shootingEffect);

@@ -54,6 +54,16 @@ public class AudioHandler : MonoBehaviour
     {
         repairSource.Stop();
     }
+    public void PlaySpawn()
+    {
+        reloadSource.pitch = UnityEngine.Random.Range(0.7f, 1.4f);
+        reloadSource.Play();
+    }
+    public void PlayDeath()
+    {
+        repairSource.pitch = UnityEngine.Random.Range(0.7f, 1.4f);
+        repairSource.Play();
+    }
 
 
 }

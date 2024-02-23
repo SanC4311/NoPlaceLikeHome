@@ -28,30 +28,12 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
             ""id"": ""502399e5-788f-4b68-943d-ff82d2119123"",
             ""actions"": [
                 {
-                    ""name"": ""CamMovement"",
-                    ""type"": ""Value"",
-                    ""id"": ""19b4bcd8-e214-4fb1-a6ff-87a33b97b627"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""CamRotate"",
                     ""type"": ""Value"",
                     ""id"": ""14c29855-031d-493b-9947-a33c1db65bae"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""CamZoom"",
-                    ""type"": ""Value"",
-                    ""id"": ""8f0f3643-f8a3-46d1-823e-cba2505169fb"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -101,127 +83,6 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""WASD"",
-                    ""id"": ""3115ce75-b423-42f1-8b9f-15ce8936a5c3"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""d5a62eb2-fad7-4939-b0d6-2f0cb8b9e2d9"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""852c9037-02a2-4b80-8c9f-e81eecd2d5b4"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""26776f29-b477-4097-a803-9821ccf74ada"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""4e3e8d1c-a5cf-498e-a3db-65ac7e410fd0"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Arrows"",
-                    ""id"": ""cc978c08-f947-4b47-97f7-bee90c370916"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""2bea06c9-499c-4f70-87cf-214fd4209376"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""dc1f29cc-8eb8-4dc5-941d-c135277e8981"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""dfa53754-5b2c-4bf4-9df1-743dc963afe9"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""54a93aba-b3e9-4bbc-86f9-217612e835b3"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b431bc90-b6cd-4ada-8aed-192670476c7c"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""CamMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""E/Q"",
                     ""id"": ""2168f782-c63a-4a5f-84a7-d42a0c966b74"",
@@ -287,17 +148,6 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""CamRotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e6689783-ae21-4768-8c1b-bc0abd708d47"",
-                    ""path"": ""<Mouse>/scroll/y"",
-                    ""interactions"": """",
-                    ""processors"": ""Clamp(min=-1,max=1),Invert"",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""CamZoom"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -954,9 +804,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_CamMovement = m_Player.FindAction("CamMovement", throwIfNotFound: true);
         m_Player_CamRotate = m_Player.FindAction("CamRotate", throwIfNotFound: true);
-        m_Player_CamZoom = m_Player.FindAction("CamZoom", throwIfNotFound: true);
         m_Player_LeftMouseClick = m_Player.FindAction("LeftMouseClick", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
         m_Player_VirtualMousePosition = m_Player.FindAction("VirtualMousePosition", throwIfNotFound: true);
@@ -1035,9 +883,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_CamMovement;
     private readonly InputAction m_Player_CamRotate;
-    private readonly InputAction m_Player_CamZoom;
     private readonly InputAction m_Player_LeftMouseClick;
     private readonly InputAction m_Player_MousePosition;
     private readonly InputAction m_Player_VirtualMousePosition;
@@ -1047,9 +893,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     {
         private @GameInputActions m_Wrapper;
         public PlayerActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @CamMovement => m_Wrapper.m_Player_CamMovement;
         public InputAction @CamRotate => m_Wrapper.m_Player_CamRotate;
-        public InputAction @CamZoom => m_Wrapper.m_Player_CamZoom;
         public InputAction @LeftMouseClick => m_Wrapper.m_Player_LeftMouseClick;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
         public InputAction @VirtualMousePosition => m_Wrapper.m_Player_VirtualMousePosition;
@@ -1064,15 +908,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @CamMovement.started += instance.OnCamMovement;
-            @CamMovement.performed += instance.OnCamMovement;
-            @CamMovement.canceled += instance.OnCamMovement;
             @CamRotate.started += instance.OnCamRotate;
             @CamRotate.performed += instance.OnCamRotate;
             @CamRotate.canceled += instance.OnCamRotate;
-            @CamZoom.started += instance.OnCamZoom;
-            @CamZoom.performed += instance.OnCamZoom;
-            @CamZoom.canceled += instance.OnCamZoom;
             @LeftMouseClick.started += instance.OnLeftMouseClick;
             @LeftMouseClick.performed += instance.OnLeftMouseClick;
             @LeftMouseClick.canceled += instance.OnLeftMouseClick;
@@ -1092,15 +930,9 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @CamMovement.started -= instance.OnCamMovement;
-            @CamMovement.performed -= instance.OnCamMovement;
-            @CamMovement.canceled -= instance.OnCamMovement;
             @CamRotate.started -= instance.OnCamRotate;
             @CamRotate.performed -= instance.OnCamRotate;
             @CamRotate.canceled -= instance.OnCamRotate;
-            @CamZoom.started -= instance.OnCamZoom;
-            @CamZoom.performed -= instance.OnCamZoom;
-            @CamZoom.canceled -= instance.OnCamZoom;
             @LeftMouseClick.started -= instance.OnLeftMouseClick;
             @LeftMouseClick.performed -= instance.OnLeftMouseClick;
             @LeftMouseClick.canceled -= instance.OnLeftMouseClick;
@@ -1271,9 +1103,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnCamMovement(InputAction.CallbackContext context);
         void OnCamRotate(InputAction.CallbackContext context);
-        void OnCamZoom(InputAction.CallbackContext context);
         void OnLeftMouseClick(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnVirtualMousePosition(InputAction.CallbackContext context);

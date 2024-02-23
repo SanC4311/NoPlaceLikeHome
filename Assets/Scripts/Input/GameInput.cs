@@ -54,34 +54,6 @@ public class GameInput : MonoBehaviour
 #endif
     }
 
-    public Vector2 GetCamMoveVector()
-    {
-#if USE_NEW_INPUT_SYSTEM
-        return gameInputActions.Player.CamMovement.ReadValue<Vector2>();
-#else
-        Vector2 inputMoveDirection = new Vector2(0, 0);
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            inputMoveDirection.y += 1;
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            inputMoveDirection.y -= 1;
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            inputMoveDirection.x -= 1;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            inputMoveDirection.x += 1;
-        }
-
-        return inputMoveDirection;
-#endif
-    }
-
     public float GetCamRotation()
     {
 #if USE_NEW_INPUT_SYSTEM
@@ -99,43 +71,6 @@ public class GameInput : MonoBehaviour
         }
 
         return rotation;
-#endif
-    }
-
-    public float GetCamZoom()
-    {
-        float zoom = 0f;
-#if USE_NEW_INPUT_SYSTEM
-
-        if (GamepadCursor.Instance.IsMouseControlScheme)
-        {
-            return gameInputActions.Player.CamZoom.ReadValue<float>();
-        }
-        else
-        {
-            if (gameInputActions.Player.DPadDown.WasPressedThisFrame())
-            {
-                zoom -= 1f;
-            }
-            if (gameInputActions.Player.DPadUp.WasPressedThisFrame())
-            {
-                zoom += 1f;
-            }
-            return zoom;
-        }
-#else
-        float zoom = 0f;
-
-        if (Input.mouseScrollDelta.y > 0)
-        {
-            zoom -= 1f;
-        }
-        if (Input.mouseScrollDelta.y < 0)
-        {
-            zoom += 1f;
-        }
-
-        return zoom;
 #endif
     }
 }

@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
     public Sound[] ambienceSounds;
     public AudioSource ambienceSource;
+    public AudioSource openingSource;
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(PlayAmbience());
+        PlayOpeningSound();
     }
 
     // Fade in play ambience 
@@ -42,6 +44,26 @@ public class AudioManager : MonoBehaviour
             yield return null;
         }
     }
+
+    public void PlayOpeningSound()
+    {
+        StartCoroutine(PlayOpening());
+    }
+
+    private IEnumerator PlayOpening()
+    {
+        yield return new WaitForSeconds(1.5f);
+        openingSource.Play();
+
+        while (openingSource.volume < 0.6)
+        {
+            // Do it slower
+            openingSource.volume += Time.deltaTime / 2;
+            yield return null;
+        }
+    }
+
+
 
 
 

@@ -9,7 +9,7 @@ public class ZombieAI : MonoBehaviour
     public Transform targetPosition;
     public float moveSpeed = 3.2f;
     public float stoppingDistance;
-    public float spawnInterval = 5f;
+    public float spawnInterval = 4f;
     private float timer;
 
     public LayerMask zombieLayer; // Layer to check for other zombies
@@ -21,9 +21,11 @@ public class ZombieAI : MonoBehaviour
     private float lastAttackTime = 0f; // Time since last attack
 
     public bool isDestroyed = false;
+    public bool playDeathSound = false;
     [SerializeField] private AudioHandler audioHandler;
 
     public AudioSource footsSource;
+    public AudioSource deathSource;
 
     public DefenseHealth defenseHealth;
     public void Initialize(Transform target, DefenseHealth health, float StoppingDistance)
@@ -31,6 +33,7 @@ public class ZombieAI : MonoBehaviour
         targetPosition = target;
         defenseHealth = health;
         stoppingDistance = StoppingDistance;
+        audioHandler.PlaySpawn();
     }
     void Update()
     {
@@ -48,7 +51,7 @@ public class ZombieAI : MonoBehaviour
             Debug.Log("Zombie destroyed - Script!");
             // Trigger a "destroyed" animation
             zombieAnimator.SetBool("Destroyed", true);
-            Destroy(gameObject, 2f);
+            Destroy(gameObject, 4f); // Destroy the zombie after 2 seconds
         }
     }
 
@@ -73,6 +76,13 @@ public class ZombieAI : MonoBehaviour
                 StartCoroutine(StopAttackSound());
             }
         }
+    }
+
+    public void DeathSound()
+    {
+        Debug.Log("Playing death sound - newest ");
+        deathSource.pitch = UnityEngine.Random.Range(0.7f, 1.4f);
+        deathSource.Play();
     }
 
     private IEnumerator StopAttackSound()
