@@ -392,7 +392,7 @@ public class PlayerChar : MonoBehaviour
                     attackMode = false;
                     yield break;
                 }
-
+                yield return new WaitForSeconds(2); // Wait for aim animation to complete
                 // Simulate aiming at the zombie
                 Debug.Log("Aimed at zombie, preparing to shoot.");
 
