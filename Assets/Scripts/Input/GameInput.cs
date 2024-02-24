@@ -54,22 +54,13 @@ public class GameInput : MonoBehaviour
 #endif
     }
 
-    public float GetCamRotation()
+    public float GetCamRotation(float rotation = 0f)
     {
 #if USE_NEW_INPUT_SYSTEM
         return gameInputActions.Player.CamRotate.ReadValue<float>();
 #else
-        float rotation = 0f;
 
-        if (Input.GetKey(KeyCode.Q))
-        {
-            rotation -= 1f;
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            rotation += 1f;
-        }
-
+        Debug.Log("Rotation called " + rotation);
         return rotation;
 #endif
     }

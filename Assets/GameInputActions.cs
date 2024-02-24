@@ -97,7 +97,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""af683fdb-529e-400c-b691-1a4ed361edb4"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/n"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -108,7 +108,7 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""f9fd4235-0ab9-4b0b-935a-19cdd9116876"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/m"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
