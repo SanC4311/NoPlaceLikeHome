@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SurvivorHighlight
+  m_Name: SurvivorHighlight 3
   m_Shader: {fileID: -6465566751694194690, guid: 83c3f781ad89a418bb87f8a68365e5f0,
     type: 3}
   m_Parent: {fileID: 0}
@@ -42,7 +42,7 @@ Material:
     - _QueueOffset: 0
     - _Scale: 1.04
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Color: {r: 1, g: 0.49499333, b: 0.3254717, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &1078407884505658525
 MonoBehaviour:
