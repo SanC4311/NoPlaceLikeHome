@@ -7,12 +7,8 @@ public class SelectedPlayerChar : MonoBehaviour
 {
     [SerializeField] private PlayerChar playerChar;
 
-    private SpriteRenderer spriteRenderer;
-
-    private void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+    public GameObject playerCharGameObject;
+    private Material material;
 
     private void Start()
     {
@@ -30,11 +26,12 @@ public class SelectedPlayerChar : MonoBehaviour
     {
         if (PlayerActions.Instance.GetSelectedPlayerChar() == playerChar)
         {
-            spriteRenderer.enabled = true;
+            playerCharGameObject.SetActive(true);
+
         }
         else
         {
-            spriteRenderer.enabled = false;
+            playerCharGameObject.SetActive(false);
         }
     }
 }

@@ -37,7 +37,8 @@ public class PlayerActions : MonoBehaviour
 
     private void Update()
     {
-        if (preoccupied) return;
+
+        //if (preoccupied) return;
         if (EventSystem.current.IsPointerOverGameObject()) return;
         if (TryHandlePlayerCharSelection()) return;
         HandleControl();
