@@ -36,7 +36,8 @@ public class PlayerAmmo : PlayerControl
                     continue;
                 }
 
-                validGridPositionList.Add(testGridPosition);
+                //validGridPositionList.Add(testGridPosition);
+                DoControl(testGridPosition, returningNull);
             }
         }
 
@@ -48,6 +49,11 @@ public class PlayerAmmo : PlayerControl
         {
             return;
         }
+    }
+
+    private void returningNull()
+    {
+        return;
     }
 
     public override void DoControl(GridPosition gridPosition, Action onActionComplete)
