@@ -7,8 +7,10 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
     public Sound[] ambienceSounds;
-    public AudioSource ambienceSource;
-    public AudioSource openingSource;
+    public AudioSource gameAmbienceSource;
+    public AudioSource menuAmbienceSource;
+    public AudioSource gameOpeningSource;
+    public AudioSource menuOpeningSource;
 
     private void Awake()
     {
@@ -25,47 +27,89 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(PlayAmbience());
-        PlayOpeningSound();
+        StartCoroutine(PlayMenuAmbience());
+        PlayMenuOpeningSound();
+    }
+
+    private IEnumerator PlayMenuAmbience()
+    {
+        menuAmbienceSource.volume = 0;
+        menuAmbienceSource.clip = ambienceSounds[0].soundClip;
+        menuAmbienceSource.Play();
+
+        while (menuAmbienceSource.volume < 0.4)
+        {
+            // Do it slower
+            menuAmbienceSource.volume += Time.deltaTime / 20;
+            yield return null;
+        }
+    }
+
+    public void StopMenuAmbience()
+    {
+        menuAmbienceSource.Stop();
+    }
+
+    public void StopMenuOpeningSound()
+    {
+        menuOpeningSource.Stop();
+    }
+
+    public void PlayMenuOpeningSound()
+    {
+        StartCoroutine(PlayMenuOpening());
+    }
+
+    private IEnumerator PlayMenuOpening()
+    {
+        yield return new WaitForSeconds(1.5f);
+        menuOpeningSource.Play();
+
+        while (menuOpeningSource.volume < 0.6)
+        {
+            // Do it slower
+            menuOpeningSource.volume += Time.deltaTime / 2;
+            yield return null;
+        }
+    }
+
+    public void StartGameAmbience()
+    {
+        StartCoroutine(PlayGameAmbience());
     }
 
     // Fade in play ambience 
 
-    private IEnumerator PlayAmbience()
+    public IEnumerator PlayGameAmbience()
     {
-        ambienceSource.volume = 0;
-        ambienceSource.clip = ambienceSounds[0].soundClip;
-        ambienceSource.Play();
+        gameAmbienceSource.volume = 0;
+        gameAmbienceSource.clip = ambienceSounds[1].soundClip;
+        gameAmbienceSource.Play();
 
-        while (ambienceSource.volume < 0.4)
+        while (gameAmbienceSource.volume < 0.4)
         {
             // Do it slower
-            ambienceSource.volume += Time.deltaTime / 20;
+            gameAmbienceSource.volume += Time.deltaTime / 20;
             yield return null;
         }
     }
 
-    public void PlayOpeningSound()
+    public void PlayGameOpeningSound()
     {
-        StartCoroutine(PlayOpening());
+        StartCoroutine(PlayGameOpening());
     }
 
-    private IEnumerator PlayOpening()
+    private IEnumerator PlayGameOpening()
     {
         yield return new WaitForSeconds(1.5f);
-        openingSource.Play();
+        gameOpeningSource.Play();
 
-        while (openingSource.volume < 0.6)
+        while (gameOpeningSource.volume < 0.6)
         {
             // Do it slower
-            openingSource.volume += Time.deltaTime / 2;
+            gameOpeningSource.volume += Time.deltaTime / 2;
             yield return null;
         }
     }
-
-
-
-
-
 
 }
