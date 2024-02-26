@@ -16,8 +16,4 @@ public class CameraRotationButtons : MonoBehaviour
             GameInput.Instance.GetCamRotation(-1);
         }
     }
-
-
-
-
 }

@@ -6,6 +6,8 @@ using UnityEngine;
 public class DefenseHealth : MonoBehaviour
 {
 
+    public GameObject gameOverScreen;
+    public GameObject gameActive;
     public event EventHandler<OnHealthChangedEventArgs> OnHealthChanged;
     public class OnHealthChangedEventArgs : EventArgs
     {
@@ -34,7 +36,11 @@ public class DefenseHealth : MonoBehaviour
                 healthNormalised = 0f
             });
             targetDestroyed = true;
-            Destroy(gameObject); // trigger a "destroyed" animation
+            // Show the game over screen
+            gameOverScreen.SetActive(true);
+            gameActive.SetActive(false);
+            // Optionally, stop all game actions or pause the game
+            Time.timeScale = 0; // Stops the game time, effectively pausing the game
         }
     }
 }

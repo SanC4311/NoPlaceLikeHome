@@ -8,7 +8,6 @@ public class SelectedPlayerChar : MonoBehaviour
     [SerializeField] private PlayerChar playerChar;
 
     public GameObject playerCharGameObject;
-    private Material material;
 
     private void Start()
     {
