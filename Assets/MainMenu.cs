@@ -7,13 +7,24 @@ public class MainMenu : MonoBehaviour
 {
 
     public AudioManager audioManager;
+    public GameObject buttons;
+
+    public void Start()
+    {
+        StartCoroutine(ShowButtons());
+    }
+
+    private IEnumerator ShowButtons()
+    {
+        buttons.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        buttons.SetActive(true);
+    }
     public void PlayGame()
     {
         audioManager.StopMenuAmbience();
         audioManager.StopMenuOpeningSound();
-        audioManager.StartGameAmbience();
-        audioManager.PlayGameOpeningSound();
-        SceneManager.LoadScene(1);
+        Loader.LoadScene(Loader.Scene.GameScene);
     }
 
     public void QuitGame()

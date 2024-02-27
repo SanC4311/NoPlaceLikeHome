@@ -50,11 +50,6 @@ public class AudioManager : MonoBehaviour
         menuAmbienceSource.Stop();
     }
 
-    public void StopMenuOpeningSound()
-    {
-        menuOpeningSource.Stop();
-    }
-
     public void PlayMenuOpeningSound()
     {
         StartCoroutine(PlayMenuOpening());
@@ -71,6 +66,11 @@ public class AudioManager : MonoBehaviour
             menuOpeningSource.volume += Time.deltaTime / 2;
             yield return null;
         }
+    }
+
+    public void StopMenuOpeningSound()
+    {
+        menuOpeningSource.Stop();
     }
 
     public void StartGameAmbience()
