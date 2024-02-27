@@ -6305,7 +6305,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42264414, y: 0.000000022053346, z: -0.00000001028441, w: 0.9062957}
+  m_LocalRotation: {x: 0.42264414, y: -0.000000022053348, z: 0.0000000102844115, w: 0.9062957}
   m_LocalPosition: {x: 4, y: 8.82, z: -7.4}
   m_LocalScale: {x: 1, y: 2.3, z: 1.3}
   m_ConstrainProportionsScale: 0
@@ -8764,15 +8764,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4628672619833566, guid: 8a91fe8b8c8c44546a97a9cea53bef38, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.032831
+      value: -13.19
       objectReference: {fileID: 0}
     - target: {fileID: 4628672619833566, guid: 8a91fe8b8c8c44546a97a9cea53bef38, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.13970974
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 4628672619833566, guid: 8a91fe8b8c8c44546a97a9cea53bef38, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.7228191
+      value: 2.04
       objectReference: {fileID: 0}
     - target: {fileID: 4628672619833566, guid: 8a91fe8b8c8c44546a97a9cea53bef38, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10068,7 +10068,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tutorial Text 2
+  m_text: 'Tutorial Scene 2
 
 
 '
@@ -10283,7 +10283,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 521077923}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42264414, y: 0.000000022053346, z: -0.00000001028441, w: 0.9062957}
+  m_LocalRotation: {x: 0.42264414, y: -0.000000022053348, z: 0.0000000102844115, w: 0.9062957}
   m_LocalPosition: {x: 4, y: 8.82, z: -7.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -20638,7 +20638,7 @@ PrefabInstance:
     - target: {fileID: 165419725799739068, guid: 62bca481f54e228428d37865f8dae489,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6285211437869958988, guid: 62bca481f54e228428d37865f8dae489,
         type: 3}
@@ -20673,7 +20673,7 @@ PrefabInstance:
     - target: {fileID: 6285211437869958988, guid: 62bca481f54e228428d37865f8dae489,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1820
+      value: 1819.9999
       objectReference: {fileID: 0}
     - target: {fileID: 6285211437869958988, guid: 62bca481f54e228428d37865f8dae489,
         type: 3}
@@ -30747,6 +30747,10 @@ MonoBehaviour:
   - {fileID: 1719958260}
   - {fileID: 1212357971}
   - {fileID: 1363493077}
+  Players:
+  - {fileID: 1581910559803565483}
+  - {fileID: 6872474642486090801}
+  - {fileID: 1535221106}
   TutorialOver: 0
 --- !u!1 &1653653868
 GameObject:
@@ -33142,7 +33146,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tutorial Text 1
+  m_text: 'Tutorial Scene 1
 
 '
   m_isRightToLeft: 0
@@ -39065,7 +39069,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tutorial Text 3
+  m_text: 'Tutorial Scene 3
 
 '
   m_isRightToLeft: 0

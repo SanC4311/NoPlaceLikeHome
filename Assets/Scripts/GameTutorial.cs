@@ -6,11 +6,17 @@ public class GameTutorial : MonoBehaviour
 {
     public GameObject GameActive;
     public GameObject[] TutorialScreens;
+    public GameObject[] Players;
     public bool TutorialOver = false;
+
 
     void Start()
     {
         GameActive.SetActive(false);
+        for (int i = 0; i < Players.Length; i++)
+        {
+            Players[i].SetActive(false);
+        }
         //Pause time
         Time.timeScale = 0;
     }
@@ -32,7 +38,7 @@ public class GameTutorial : MonoBehaviour
                     else
                     {
                         TutorialOver = true;
-                        StartGame();
+                        StartCoroutine(StartGame());
                     }
                     break;
                 }
@@ -41,11 +47,23 @@ public class GameTutorial : MonoBehaviour
     }
 
 
-    public void StartGame()
+
+    public void SkipTutorial()
+    {
+        TutorialOver = true;
+        StartCoroutine(StartGame());
+    }
+
+    private IEnumerator StartGame()
     {
         AudioManager.Instance.StartGameAmbience();
         AudioManager.Instance.PlayGameOpeningSound();
+        yield return new WaitForSecondsRealtime(0.5f);
         GameActive.SetActive(true);
+        for (int i = 0; i < Players.Length; i++)
+        {
+            Players[i].SetActive(true);
+        }
         //Resume time
         Time.timeScale = 1;
     }
