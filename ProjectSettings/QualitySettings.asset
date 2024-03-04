@@ -144,7 +144,7 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 11400000, guid: e1260c1148f6143b28bae5ace5e9c5d1,
+    customRenderPipeline: {fileID: 11400000, guid: 7b7fd9122c28c4d15b667c7040e3b3fd,
       type: 2}
     terrainQualityOverrides: 0
     terrainPixelError: 1
@@ -158,7 +158,7 @@ QualitySettings:
     excludedTargetPlatforms: []
   m_TextureMipmapLimitGroupNames: []
   m_PerPlatformDefaultQuality:
-    Android: 2
+    Android: 1
     CloudRendering: 2
     GameCoreScarlett: 2
     GameCoreXboxOne: 2
@@ -172,5 +172,5 @@ QualitySettings:
     WebGL: 2
     Windows Store Apps: 2
     XboxOne: 2
-    iPhone: 2
+    iPhone: 1
     tvOS: 1

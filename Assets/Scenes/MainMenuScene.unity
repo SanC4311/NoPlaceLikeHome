@@ -3143,10 +3143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d37d054e457113459accf4b905624c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FSRQuality: 3
+  FSRQuality: 2
   antiGhosting: 0.5
   sharpening: 1
-  sharpness: 0.5
+  sharpness: 0.7
   enableF16: 0
   enableAutoExposure: 1
   generateReactiveMask: 1

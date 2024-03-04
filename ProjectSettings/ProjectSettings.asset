@@ -141,8 +141,7 @@ PlayerSettings:
   vulkanEnableCommandBufferRecycling: 1
   loadStoreDebugModeEnabled: 0
   bundleVersion: 0.8.0
-  preloadedAssets:
-  - {fileID: 11400000, guid: 60d92e72daac94bfb85b7477e2a3e72d, type: 2}
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -817,7 +816,7 @@ PlayerSettings:
   webGLPowerPreference: 2
   scriptingDefineSymbols:
     Android: MODULAR_3D_TEXT;UNITY_URP;AEG_FSR1;AEG_FSR3
-    Standalone: MODULAR_3D_TEXT;EMERALD_AI_2024_PRESENT
+    Standalone: MODULAR_3D_TEXT;EMERALD_AI_2024_PRESENT;UNITY_URP;AEG_FSR1;AEG_FSR3
     WebGL: MODULAR_3D_TEXT
   additionalCompilerArguments: {}
   platformArchitecture: {}
