@@ -53,15 +53,4 @@ public class GameInput : MonoBehaviour
         return Input.GetMouseButtonDown(0);
 #endif
     }
-
-    public float GetCamRotation(float rotation = 0f)
-    {
-#if USE_NEW_INPUT_SYSTEM
-        return gameInputActions.Player.CamRotate.ReadValue<float>();
-#else
-
-        Debug.Log("Rotation called " + rotation);
-        return rotation;
-#endif
-    }
 }

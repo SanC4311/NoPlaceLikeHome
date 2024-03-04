@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameTutorial : MonoBehaviour
@@ -8,6 +9,8 @@ public class GameTutorial : MonoBehaviour
     public GameObject[] TutorialScreens;
     public GameObject[] Players;
     public bool TutorialOver = false;
+
+    public bool TutorialSkipped = false;
 
 
     void Start()
@@ -21,7 +24,26 @@ public class GameTutorial : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public void Update()
+    public void SkipTutorial()
+    {
+        TutorialSkipped = true;
+        for (int i = 0; i < TutorialScreens.Length; i++)
+        {
+            TutorialScreens[i].SetActive(false);
+        }
+        TutorialOver = true;
+        StartCoroutine(StartGame());
+    }
+
+    public void LateUpdate()
+    {
+        if (!TutorialSkipped)
+        {
+            PlayTutorial();
+        }
+    }
+
+    public void PlayTutorial()
     {
         //Input Manager for the tutorial
         if (GameInput.Instance.isLeftMouseButtonDownThisFrame() && !TutorialOver)
@@ -33,7 +55,10 @@ public class GameTutorial : MonoBehaviour
                     TutorialScreens[i].SetActive(false);
                     if (i + 1 < TutorialScreens.Length)
                     {
-                        TutorialScreens[i + 1].SetActive(true);
+                        if (!TutorialSkipped)
+                        {
+                            TutorialScreens[i + 1].SetActive(true);
+                        }
                     }
                     else
                     {
@@ -46,19 +71,11 @@ public class GameTutorial : MonoBehaviour
         }
     }
 
-
-
-    public void SkipTutorial()
-    {
-        TutorialOver = true;
-        StartCoroutine(StartGame());
-    }
-
     private IEnumerator StartGame()
     {
         AudioManager.Instance.StartGameAmbience();
         AudioManager.Instance.PlayGameOpeningSound();
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.005f);
         GameActive.SetActive(true);
         for (int i = 0; i < Players.Length; i++)
         {

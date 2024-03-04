@@ -7,7 +7,7 @@ public class GamepadCursor : MonoBehaviour
 {
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private RectTransform cursorRectTransform;
-    [SerializeField] private float cursorSpeed = 1000f;
+    [SerializeField] private float cursorSpeed = 12000f;
     [SerializeField] Canvas canvas;
     [SerializeField] private RectTransform canvasRectTransform;
     [SerializeField] float padding = 20f;
@@ -15,11 +15,10 @@ public class GamepadCursor : MonoBehaviour
     private bool previousMouseState;
     private Mouse virtualMouse;
     private Camera mainCamera;
-    private string previousControlScheme = "Keyboard&Mouse";
+    private string previousControlScheme = "Mouse";
     private const string gamepadScheme = "Gamepad";
-    private const string keyboardMouseScheme = "Keyboard&Mouse";
+    private const string keyboardMouseScheme = "Mouse";
     public bool IsMouseControlScheme { get; private set; }
-
     public static GamepadCursor Instance { get; private set; }
     private void Awake()
     {
@@ -32,6 +31,8 @@ public class GamepadCursor : MonoBehaviour
         }
 
         Instance = this;
+
+
     }
 
     private void OnEnable()
@@ -72,7 +73,8 @@ public class GamepadCursor : MonoBehaviour
         if (virtualMouse == null || Gamepad.current == null) { return; }
 
         Vector2 deltavalue = Gamepad.current.leftStick.ReadValue();
-        deltavalue *= Time.deltaTime * cursorSpeed;
+        // Use Time.unscaledDeltaTime instead of Time.deltaTime
+        deltavalue *= Time.unscaledDeltaTime * cursorSpeed;
 
         Vector2 currentPosition = virtualMouse.position.ReadValue();
         Vector2 newPosition = currentPosition + deltavalue;
@@ -127,25 +129,17 @@ public class GamepadCursor : MonoBehaviour
         {
             cursorRectTransform.gameObject.SetActive(false);
             Cursor.visible = true;
-            currentMouse.WarpCursorPosition(virtualMouse.position.ReadValue());
-
-            previousControlScheme = keyboardMouseScheme;
-
-            IsMouseControlScheme = true;
+            // Ensure the virtual mouse position syncs with the real mouse upon switching back.
+            if (virtualMouse != null) currentMouse.WarpCursorPosition(virtualMouse.position.ReadValue());
         }
         else if (playerInput.currentControlScheme == gamepadScheme && previousControlScheme != gamepadScheme)
         {
             cursorRectTransform.gameObject.SetActive(true);
             Cursor.visible = false;
-            InputState.Change(virtualMouse.position, currentMouse.position.ReadValue());
-            AnchorCursor(currentMouse.position.ReadValue());
-
-            previousControlScheme = gamepadScheme;
-
-            IsMouseControlScheme = false;
+            // Sync the virtual mouse with the current mouse position as fallback.
+            if (currentMouse != null) InputState.Change(virtualMouse.position, currentMouse.position.ReadValue());
         }
+
+        previousControlScheme = playerInput.currentControlScheme;
     }
-
-
-
 }
