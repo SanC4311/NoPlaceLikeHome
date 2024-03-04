@@ -31,8 +31,6 @@ public class GamepadCursor : MonoBehaviour
         }
 
         Instance = this;
-
-
     }
 
     private void OnEnable()
@@ -129,17 +127,22 @@ public class GamepadCursor : MonoBehaviour
         {
             cursorRectTransform.gameObject.SetActive(false);
             Cursor.visible = true;
-            // Ensure the virtual mouse position syncs with the real mouse upon switching back.
-            if (virtualMouse != null) currentMouse.WarpCursorPosition(virtualMouse.position.ReadValue());
+            currentMouse.WarpCursorPosition(virtualMouse.position.ReadValue());
+
+            previousControlScheme = keyboardMouseScheme;
+
+            IsMouseControlScheme = true;
         }
         else if (playerInput.currentControlScheme == gamepadScheme && previousControlScheme != gamepadScheme)
         {
             cursorRectTransform.gameObject.SetActive(true);
             Cursor.visible = false;
-            // Sync the virtual mouse with the current mouse position as fallback.
-            if (currentMouse != null) InputState.Change(virtualMouse.position, currentMouse.position.ReadValue());
-        }
+            InputState.Change(virtualMouse.position, currentMouse.position.ReadValue());
+            AnchorCursor(currentMouse.position.ReadValue());
 
-        previousControlScheme = playerInput.currentControlScheme;
+            previousControlScheme = gamepadScheme;
+
+            IsMouseControlScheme = false;
+        }
     }
 }

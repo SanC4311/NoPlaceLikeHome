@@ -816,7 +816,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: MODULAR_3D_TEXT
+    Android: MODULAR_3D_TEXT;UNITY_URP;AEG_FSR1;AEG_FSR3
     Standalone: MODULAR_3D_TEXT;EMERALD_AI_2024_PRESENT
     WebGL: MODULAR_3D_TEXT
   additionalCompilerArguments: {}

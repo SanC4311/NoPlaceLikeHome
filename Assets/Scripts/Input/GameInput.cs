@@ -28,6 +28,7 @@ public class GameInput : MonoBehaviour
 
     public Vector2 GetMouseScreenPosition()
     {
+        //Debug.Log("InputMouse: " + gameInputActions.Player.MousePosition.ReadValue<Vector2>());
         // Debug.Log("InputMouse: " + Input.mousePosition);
         // Debug.Log("InputVirtualMouse: " + gameInputActions.Player.VirtualMousePosition.ReadValue<Vector2>());
 
