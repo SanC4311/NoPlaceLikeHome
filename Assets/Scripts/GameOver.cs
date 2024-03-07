@@ -8,8 +8,11 @@ public class GameOver : MonoBehaviour
 {
     public TextMeshProUGUI overTimer;
     public Timer gameTimer;
+    public AudioSource gameOverSound;
+
     public void TryAgain()
     {
+        gameOverSound.Stop();
         Time.timeScale = 1; // Resumes the game time
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reloads the current scene
     }
@@ -22,6 +25,7 @@ public class GameOver : MonoBehaviour
     public void Start()
     {
         overTimer.text = gameTimer.showTime();
+        gameOverSound.Play();
     }
 
 }
